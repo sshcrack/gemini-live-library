@@ -132,15 +132,6 @@ configurations {
 
 
 dependencies {
-    jarJar(implementation('org.java-websocket:Java-WebSocket') {
-        exclude group: 'org.slf4j', module: 'slf4j-api'
-    }) {
-        version {
-            strictly '[1.5,)'
-        }
-    }
-
-    additionalRuntimeClasspath "org.java-websocket:Java-WebSocket:1.6.0"
 }
 
 
