@@ -36,7 +36,9 @@ public class GetCitizenInfoAction extends FunctionAction {
                 .getCitizenManager()
                 .getCitizens()
                 .stream().filter(e -> e.getName().equals(name))
-                .findFirst();        if (foundOpt.isEmpty()) {
+                .findFirst();
+
+        if (foundOpt.isEmpty()) {
             var obj = new JsonObject();
             obj.addProperty("error", "Citizen not found.");
 
@@ -44,7 +46,7 @@ public class GetCitizenInfoAction extends FunctionAction {
         }
 
         var found = foundOpt.get();
-        var tag = found.serializeNBT();
+        var tag = found.serializeNBT(level.registryAccess());
 
         return tagToJson(tag);
     }

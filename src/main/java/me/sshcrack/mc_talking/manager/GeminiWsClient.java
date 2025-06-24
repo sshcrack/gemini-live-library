@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.sshcrack.mc_talking.ConversationManager;
 import me.sshcrack.mc_talking.McTalking;
-import me.sshcrack.mc_talking.capability.EntityDataProvider;
+import me.sshcrack.mc_talking.ModAttachmentTypes;
 import me.sshcrack.mc_talking.config.AvailableAI;
 import me.sshcrack.mc_talking.config.ModalityModes;
 import me.sshcrack.mc_talking.gson.BidiGenerateContentSetup;
@@ -17,7 +17,7 @@ import me.sshcrack.mc_talking.network.AiStatus;
 import me.sshcrack.mc_talking.network.AiStatusPayload;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -55,7 +55,8 @@ public class GeminiWsClient extends WebSocketClient {
     //TODO: Don't send packets to all players
     public GeminiWsClient(TalkingManager manager, ServerPlayer player) {
         super(URI.create(getUrl()));
-        this.manager = manager;        stream = new GeminiStream(manager.channel);
+        this.manager = manager;
+        stream = new GeminiStream(manager.channel);
 
         var isFemale = manager.entity.getCitizenData().isFemale();
         var isChild = manager.entity.getCitizenData().isChild();
@@ -63,7 +64,7 @@ public class GeminiWsClient extends WebSocketClient {
             stream.setPitch(0.8f); // Increase pitch
 
         this.initialPlayer = player;
-        AiStatusPayload.sendToAll(new AiStatusPayload(manager.entity.getUUID(), AiStatus.LISTENING));
+        PacketDistributor.sendToAllPlayers(new AiStatusPayload(manager.entity.getUUID(), AiStatus.LISTENING));
     }
 
     @Override
@@ -79,17 +80,19 @@ public class GeminiWsClient extends WebSocketClient {
 
         if (modality != ModalityModes.TEXT) {
             setup.generationConfig.speechConfig = new BidiGenerateContentSetup.GenerationConfig.SpeechConfig();
-            setup.generationConfig.speechConfig.language_code = CONFIG.language.get();            var entity = this.manager.entity;
+            setup.generationConfig.speechConfig.language_code = CONFIG.language.get();
+
+            var entity = this.manager.entity;
             var female = entity.getCitizenData().isFemale();
             var uuid = entity.getUUID();
 
             setup.sessionResumption = new BidiGenerateContentSetup.SessionResumptionConfig();
-            EntityDataProvider.getFromEntity(entity).ifPresent(provider -> {
-                var sessionToken = provider.getSessionToken();
+            if (entity.hasData(ModAttachmentTypes.SESSION_TOKEN)) {
+                var sessionToken = entity.getData(ModAttachmentTypes.SESSION_TOKEN);
                 if (!sessionToken.isBlank()) {
                     setup.sessionResumption = new BidiGenerateContentSetup.SessionResumptionConfig(sessionToken);
                 }
-            });
+            }
             setup.generationConfig.speechConfig.voice_config = new BidiGenerateContentSetup.GenerationConfig.SpeechConfig.VoiceConfig();
             setup.generationConfig.speechConfig.voice_config.prebuiltVoiceConfig = new BidiGenerateContentSetup.GenerationConfig.SpeechConfig.PrebuiltVoiceConfig();
             setup.generationConfig.speechConfig.voice_config.prebuiltVoiceConfig.voice_name = CONFIG.currentAiModel.get().getRandomVoice(uuid, female);
@@ -159,10 +162,10 @@ public class GeminiWsClient extends WebSocketClient {
                 return;
 
             if (!obj.has("resumable") || !obj.get("resumable").getAsBoolean())
-                return;            var handle = obj.get("newHandle").getAsString();
-            EntityDataProvider.getFromEntity(this.manager.entity).ifPresent(provider -> {
-                provider.setSessionToken(handle);
-            });
+                return;
+
+            var handle = obj.get("newHandle").getAsString();
+            this.manager.entity.setData(ModAttachmentTypes.SESSION_TOKEN, handle);
             return;
         }
 
@@ -210,9 +213,10 @@ public class GeminiWsClient extends WebSocketClient {
         }
 
         if (outer.has("serverContent") && outer.get("serverContent").isJsonObject()) {
-            var obj = outer.getAsJsonObject("serverContent");            if (obj.has("turnComplete") && obj.get("turnComplete").getAsBoolean()) {
+            var obj = outer.getAsJsonObject("serverContent");
+            if (obj.has("turnComplete") && obj.get("turnComplete").getAsBoolean()) {
                 McTalking.LOGGER.info("Gemini turn complete");
-                AiStatusPayload.sendToAll(new AiStatusPayload(manager.entity.getUUID(), AiStatus.LISTENING));
+                PacketDistributor.sendToAllPlayers(new AiStatusPayload(manager.entity.getUUID(), AiStatus.LISTENING));
                 return;
             }
 
@@ -229,7 +233,9 @@ public class GeminiWsClient extends WebSocketClient {
                 sPlayer.sendSystemMessage(manager.entity.getDisplayName().copy().append(": ").append(Component.literal(currMsg.trim())));
                 currMsg = "";
                 return;
-            }            if (obj.has("generationComplete") && obj.get("generationComplete").getAsBoolean()) {
+            }
+
+            if (obj.has("generationComplete") && obj.get("generationComplete").getAsBoolean()) {
                 McTalking.LOGGER.info("Gemini generation complete");
 
 
@@ -296,14 +302,15 @@ public class GeminiWsClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        isInitiatingConnection = false;        if (reason.contains("You exceeded your current quota, please")) {
+        isInitiatingConnection = false;
+        if (reason.contains("You exceeded your current quota, please")) {
             quotaExceeded = true;
             McTalking.LOGGER.warn("Quota exceeded for Gemini API, please check your API key and usage limits.");
-            AiStatusPayload.sendToAll(new AiStatusPayload(manager.entity.getUUID(), AiStatus.QUOTA_EXCEEDED));
-        }if (reason.contains("BidiGenerateContent session not found")) {
-            EntityDataProvider.getFromEntity(manager.entity).ifPresent(provider -> {
-                provider.setSessionToken("");
-            });
+            PacketDistributor.sendToAllPlayers(new AiStatusPayload(manager.entity.getUUID(), AiStatus.QUOTA_EXCEEDED));
+        }
+
+        if (reason.contains("BidiGenerateContent session not found")) {
+            manager.entity.setData(ModAttachmentTypes.SESSION_TOKEN, "");
             new Thread(() -> {
                 if (!isOpen() || !isInitiatingConnection) {
                     reconnect();
@@ -311,14 +318,19 @@ public class GeminiWsClient extends WebSocketClient {
                 }
             }).start();
             return;
-        }        if (code != 1000 && code != 1001) {
-            AiStatusPayload.sendToAll(new AiStatusPayload(manager.entity.getUUID(), AiStatus.ERROR));
+        }
+
+
+        if (code != 1000 && code != 1001) {
+            PacketDistributor.sendToAllPlayers(new AiStatusPayload(manager.entity.getUUID(), AiStatus.ERROR));
         }
 
         McTalking.LOGGER.info("GeminiWsClient closed: {} and code {}", reason, code);
-    }    @Override
+    }
+
+    @Override
     public void onError(Exception ex) {
-        AiStatusPayload.sendToAll(new AiStatusPayload(manager.entity.getUUID(), AiStatus.ERROR));
+        PacketDistributor.sendToAllPlayers(new AiStatusPayload(manager.entity.getUUID(), AiStatus.ERROR));
         ex.printStackTrace();
     }
 
@@ -350,10 +362,13 @@ public class GeminiWsClient extends WebSocketClient {
         input.text = newStatusPrompt;
 
         send(ClientMessages.input(input));
-    }    public void addPromptAudio(short[] audio) {        var input = new RealtimeInput();
+    }
+
+    public void addPromptAudio(short[] audio) {
+        var input = new RealtimeInput();
         input.audio = new RealtimeInput.Blob("audio/pcm;rate=48000", audio);
         if (sentGeneratingStatus)
-            AiStatusPayload.sendToAll(new AiStatusPayload(manager.entity.getUUID(), AiStatus.LISTENING));
+            PacketDistributor.sendToAllPlayers(new AiStatusPayload(manager.entity.getUUID(), AiStatus.LISTENING));
 
 
         if (!setupComplete || this.isClosed()) {
