@@ -185,6 +185,16 @@ def modrinth_key = localProperties.getProperty('MODRINTH_API_KEY') ?: ""
 def curse_key = localProperties.getProperty('CURSEFORGE_API_KEY') ?: ""
 
 
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.set('sources')
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+
 // Place modrinth block at the very end to ensure all properties are loaded and plugin is applied
 modrinth {
     token = modrinth_key
