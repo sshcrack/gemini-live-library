@@ -9,7 +9,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id "com.modrinth.minotaur" version "2+"
     id 'net.darkhax.curseforgegradle' version '1.1+'
-    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 jarJar.enable()
@@ -163,26 +162,11 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
-    implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
-    runtimeOnly fg.deobf("maven.modrinth:simple-voice-chat:forge-${voicechat_version}")
-
-    implementation fg.deobf("com.ldtteam:minecolonies:${minecolonies_version}")
-    runtimeOnly fg.deobf("com.ldtteam:domum_ornamentum:${domum_version}")
-    runtimeOnly fg.deobf("com.ldtteam:structurize:${structurize_version}")
-    runtimeOnly fg.deobf("com.ldtteam:blockui:${blockui_version}")
 
     jarJar(group: 'org.java-websocket', name: 'Java-WebSocket', version: '[1.5,)')
     library (group: 'org.java-websocket', name: 'Java-WebSocket', version: '[1.5,)') {
         jarJar.pin(it, "1.6.0")
     }
-}
-
-mixin {
-    // MixinGradle Settings
-    add sourceSets.main, 'mc_talking.mixins.refmap.json'
-    config 'mc_talking.mixins.json'
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -192,8 +176,6 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             forge_version          : forge_version,
             forge_version_range    : forge_version_range,
             loader_version_range   : loader_version_range,
-            voicechat_version      : voicechat_version,
-            minecolonies_version   : minecolonies_version,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
@@ -280,16 +262,13 @@ if (changelogFile) {
 // Place modrinth block at the very end to ensure all properties are loaded and plugin is applied
 modrinth {
     token = modrinth_key
-    projectId = 'QJvWFsra'
+    projectId = 'websocket-lib'
     uploadFile = tasks.jarJar.archiveFile
-    versionType = "beta"
+    versionType = "release"
     loaders = ["forge"]
     gameVersions = [minecraft_version]
-    changelog = changelogText
+    changelog = "Changelog cna be found at the source repository."
     syncBodyFrom = rootProject.file("README.md").text
-    dependencies {
-        required.project "simple-voice-chat"
-    }
 }
 
 tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
@@ -298,14 +277,12 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     disableVersionDetection()
 
     def mainFile = upload(curseforge_project, tasks.jarJar.archiveFile)
-    mainFile.displayName = "[${project.name.capitalize()} forge - [${minecraft_version}] ${project.version}"
+    mainFile.displayName = "[${project.name.capitalize()}] forge - [${minecraft_version}] ${project.version}"
     mainFile.addModLoader("forge")
-    mainFile.releaseType = "beta"
+    mainFile.releaseType = "release"
     mainFile.addEnvironment("client", "server")
     mainFile.addGameVersion(minecraft_version)
-    mainFile.addRequirement("simple-voice-chat")
-    mainFile.addRequirement("minecolonies")
-    mainFile.changelog = changelogText
+    mainFile.changelog = "Changelog cna be found at the source repository."
 }
 
 tasks.register("publishAll")
