@@ -242,7 +242,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'me.sshcrack'
             artifactId = mod_id
-            version = project.version + "-forge"
+            version = project.version + "-" + minecraft_version + "-forge"
 
             artifact(jar)
             artifact(sourcesJar)
