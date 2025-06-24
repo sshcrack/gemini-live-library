@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 @Mod(WebsocketLibMod.MODID)
 public class WebsocketLibMod {
-    public static final String MODID = "websocket_java_lib";
+    public static final String MODID = "websocket_lib";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     /**
