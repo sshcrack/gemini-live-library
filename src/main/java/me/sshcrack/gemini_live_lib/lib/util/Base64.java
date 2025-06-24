@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.util;
+package me.sshcrack.gemini_live_lib.lib.util;
 
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>

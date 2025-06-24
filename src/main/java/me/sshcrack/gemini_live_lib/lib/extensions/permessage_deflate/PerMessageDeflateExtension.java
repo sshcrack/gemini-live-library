@@ -1,4 +1,4 @@
-package me.sshcrack.websocket_lib.lib.extensions.permessage_deflate;
+package me.sshcrack.gemini_live_lib.lib.extensions.permessage_deflate;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
@@ -7,17 +7,17 @@ import java.util.Map;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidFrameException;
-import me.sshcrack.websocket_lib.lib.extensions.CompressionExtension;
-import me.sshcrack.websocket_lib.lib.extensions.ExtensionRequestData;
-import me.sshcrack.websocket_lib.lib.extensions.IExtension;
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
-import me.sshcrack.websocket_lib.lib.framing.ContinuousFrame;
-import me.sshcrack.websocket_lib.lib.framing.DataFrame;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.framing.FramedataImpl1;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidFrameException;
+import me.sshcrack.gemini_live_lib.lib.extensions.CompressionExtension;
+import me.sshcrack.gemini_live_lib.lib.extensions.ExtensionRequestData;
+import me.sshcrack.gemini_live_lib.lib.extensions.IExtension;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.ContinuousFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.DataFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.framing.FramedataImpl1;
 
 /**
  * PerMessage Deflate Extension (<a href="https://tools.ietf.org/html/rfc7692#section-7">7&#46; The

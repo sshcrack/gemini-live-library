@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.exceptions;
+package me.sshcrack.gemini_live_lib.lib.exceptions;
 
 /**
  * exception which indicates the websocket is not yet connected (ReadyState.OPEN)

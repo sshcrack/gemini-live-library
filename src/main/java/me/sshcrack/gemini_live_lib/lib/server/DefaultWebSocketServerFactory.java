@@ -23,15 +23,15 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.server;
+package me.sshcrack.gemini_live_lib.lib.server;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.List;
-import me.sshcrack.websocket_lib.lib.WebSocketAdapter;
-import me.sshcrack.websocket_lib.lib.WebSocketImpl;
-import me.sshcrack.websocket_lib.lib.WebSocketServerFactory;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.WebSocketAdapter;
+import me.sshcrack.gemini_live_lib.lib.WebSocketImpl;
+import me.sshcrack.gemini_live_lib.lib.WebSocketServerFactory;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
 
 public class DefaultWebSocketServerFactory implements WebSocketServerFactory {
 

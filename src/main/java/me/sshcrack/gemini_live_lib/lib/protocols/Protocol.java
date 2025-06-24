@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.protocols;
+package me.sshcrack.gemini_live_lib.lib.protocols;
 
 import java.util.regex.Pattern;
 

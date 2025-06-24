@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -214,7 +214,7 @@ def curse_key = localProperties.getProperty('CURSEFORGE_API_KEY') ?: ""
 // Place modrinth block at the very end to ensure all properties are loaded and plugin is applied
 modrinth {
     token = modrinth_key
-    projectId = 'websocket-lib'
+    projectId = 'gemini-live-lib'
     uploadFile = tasks.jar.archiveFile
     versionType = "release"
     loaders = ["forge"]

@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.io.IOException;
 import java.nio.BufferOverflowException;
@@ -37,8 +37,8 @@ import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLEngineResult.HandshakeStatus;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
-import me.sshcrack.websocket_lib.lib.interfaces.ISSLChannel;
-import me.sshcrack.websocket_lib.lib.util.ByteBufferUtils;
+import me.sshcrack.gemini_live_lib.lib.interfaces.ISSLChannel;
+import me.sshcrack.gemini_live_lib.lib.util.ByteBufferUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

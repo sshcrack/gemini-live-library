@@ -26,4 +26,4 @@
 /**
  * This package encapsulates all implementations in relation with the WebSocketServer.
  */
-package me.sshcrack.websocket_lib.lib.server;
+package me.sshcrack.gemini_live_lib.lib.server;

@@ -27,5 +27,5 @@
  * This package encapsulates all interfaces and implementations in relation with the WebSocket
  * handshake.
  */
-package me.sshcrack.websocket_lib.lib.handshake;
+package me.sshcrack.gemini_live_lib.lib.handshake;
 

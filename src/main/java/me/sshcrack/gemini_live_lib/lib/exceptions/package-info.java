@@ -27,4 +27,4 @@
  * This package encapsulates all implementations in relation with the exceptions thrown in this
  * lib.
  */
-package me.sshcrack.websocket_lib.lib.exceptions;
+package me.sshcrack.gemini_live_lib.lib.exceptions;

@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -37,30 +37,30 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import javax.net.ssl.SSLSession;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
-import me.sshcrack.websocket_lib.lib.drafts.Draft_6455;
-import me.sshcrack.websocket_lib.lib.enums.CloseHandshakeType;
-import me.sshcrack.websocket_lib.lib.enums.HandshakeState;
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
-import me.sshcrack.websocket_lib.lib.enums.ReadyState;
-import me.sshcrack.websocket_lib.lib.enums.Role;
-import me.sshcrack.websocket_lib.lib.exceptions.IncompleteHandshakeException;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidHandshakeException;
-import me.sshcrack.websocket_lib.lib.exceptions.LimitExceededException;
-import me.sshcrack.websocket_lib.lib.exceptions.WebsocketNotConnectedException;
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.framing.PingFrame;
-import me.sshcrack.websocket_lib.lib.handshake.ClientHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.ClientHandshakeBuilder;
-import me.sshcrack.websocket_lib.lib.handshake.Handshakedata;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshakeBuilder;
-import me.sshcrack.websocket_lib.lib.interfaces.ISSLChannel;
-import me.sshcrack.websocket_lib.lib.protocols.IProtocol;
-import me.sshcrack.websocket_lib.lib.server.WebSocketServer.WebSocketWorker;
-import me.sshcrack.websocket_lib.lib.util.Charsetfunctions;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft_6455;
+import me.sshcrack.gemini_live_lib.lib.enums.CloseHandshakeType;
+import me.sshcrack.gemini_live_lib.lib.enums.HandshakeState;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.enums.ReadyState;
+import me.sshcrack.gemini_live_lib.lib.enums.Role;
+import me.sshcrack.gemini_live_lib.lib.exceptions.IncompleteHandshakeException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidHandshakeException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.LimitExceededException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.WebsocketNotConnectedException;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.framing.PingFrame;
+import me.sshcrack.gemini_live_lib.lib.handshake.ClientHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.ClientHandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.handshake.Handshakedata;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.interfaces.ISSLChannel;
+import me.sshcrack.gemini_live_lib.lib.protocols.IProtocol;
+import me.sshcrack.gemini_live_lib.lib.server.WebSocketServer.WebSocketWorker;
+import me.sshcrack.gemini_live_lib.lib.util.Charsetfunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

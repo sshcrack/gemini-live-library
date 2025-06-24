@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.protocols;
+package me.sshcrack.gemini_live_lib.lib.protocols;
 
 /**
  * Interface which specifies all required methods for a Sec-WebSocket-Protocol

@@ -1,4 +1,4 @@
-package me.sshcrack.websocket_lib.lib.extensions;
+package me.sshcrack.gemini_live_lib.lib.extensions;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

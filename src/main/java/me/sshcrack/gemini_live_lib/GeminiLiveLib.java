@@ -1,9 +1,9 @@
-package me.sshcrack.websocket_lib;
+package me.sshcrack.gemini_live_lib;
 
 import net.minecraftforge.fml.common.Mod;
 
-@Mod(WebsocketLibMod.MODID)
-public class WebsocketLibMod {
-    public static final String MODID = "websocket_lib";
-    public WebsocketLibMod() {}
+@Mod(GeminiLiveLib.MODID)
+public class GeminiLiveLib {
+    public static final String MODID = "gemini_live_lib";
+    public GeminiLiveLib() {}
 }

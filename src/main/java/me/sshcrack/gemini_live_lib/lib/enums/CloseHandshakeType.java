@@ -1,4 +1,4 @@
-package me.sshcrack.websocket_lib.lib.enums;
+package me.sshcrack.gemini_live_lib.lib.enums;
 
 /**
  * Enum which represents type of handshake is required for a close

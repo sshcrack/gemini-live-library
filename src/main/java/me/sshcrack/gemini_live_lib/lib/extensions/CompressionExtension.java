@@ -23,13 +23,13 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.extensions;
+package me.sshcrack.gemini_live_lib.lib.extensions;
 
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidFrameException;
-import me.sshcrack.websocket_lib.lib.framing.ControlFrame;
-import me.sshcrack.websocket_lib.lib.framing.DataFrame;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidFrameException;
+import me.sshcrack.gemini_live_lib.lib.framing.ControlFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.DataFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
 
 /**
  * Implementation for a compression extension specified by https://tools.ietf.org/html/rfc7692

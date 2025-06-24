@@ -24,10 +24,10 @@
  *
  */
 
-package me.sshcrack.websocket_lib.lib.exceptions;
+package me.sshcrack.gemini_live_lib.lib.exceptions;
 
 import java.io.IOException;
-import me.sshcrack.websocket_lib.lib.WebSocket;
+import me.sshcrack.gemini_live_lib.lib.WebSocket;
 
 /**
  * Exception to wrap an IOException and include information about the websocket which had the

@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.client;
+package me.sshcrack.gemini_live_lib.lib.client;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,20 +50,20 @@ import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import me.sshcrack.websocket_lib.lib.AbstractWebSocket;
-import me.sshcrack.websocket_lib.lib.WebSocket;
-import me.sshcrack.websocket_lib.lib.WebSocketImpl;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
-import me.sshcrack.websocket_lib.lib.drafts.Draft_6455;
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
-import me.sshcrack.websocket_lib.lib.enums.ReadyState;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidHandshakeException;
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.handshake.HandshakeImpl1Client;
-import me.sshcrack.websocket_lib.lib.handshake.Handshakedata;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshake;
-import me.sshcrack.websocket_lib.lib.protocols.IProtocol;
+import me.sshcrack.gemini_live_lib.lib.AbstractWebSocket;
+import me.sshcrack.gemini_live_lib.lib.WebSocket;
+import me.sshcrack.gemini_live_lib.lib.WebSocketImpl;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft_6455;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.enums.ReadyState;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidHandshakeException;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.handshake.HandshakeImpl1Client;
+import me.sshcrack.gemini_live_lib.lib.handshake.Handshakedata;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshake;
+import me.sshcrack.gemini_live_lib.lib.protocols.IProtocol;
 
 /**
  * A subclass must implement at least <var>onOpen</var>, <var>onClose</var>, and

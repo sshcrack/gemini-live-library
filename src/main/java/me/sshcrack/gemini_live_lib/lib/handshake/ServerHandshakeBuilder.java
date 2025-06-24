@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.handshake;
+package me.sshcrack.gemini_live_lib.lib.handshake;
 
 /**
  * The interface for building a handshake for the server

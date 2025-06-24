@@ -23,15 +23,15 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.util;
+package me.sshcrack.gemini_live_lib.lib.util;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
 
 public class Charsetfunctions {
 

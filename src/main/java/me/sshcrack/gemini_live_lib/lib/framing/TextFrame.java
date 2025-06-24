@@ -23,11 +23,11 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.framing;
+package me.sshcrack.gemini_live_lib.lib.framing;
 
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.util.Charsetfunctions;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.util.Charsetfunctions;
 
 /**
  * Class to represent a text frames

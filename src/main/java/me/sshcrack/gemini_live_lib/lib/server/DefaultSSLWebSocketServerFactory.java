@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.server;
+package me.sshcrack.gemini_live_lib.lib.server;
 
 import java.io.IOException;
 import java.nio.channels.ByteChannel;
@@ -36,11 +36,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
-import me.sshcrack.websocket_lib.lib.SSLSocketChannel2;
-import me.sshcrack.websocket_lib.lib.WebSocketAdapter;
-import me.sshcrack.websocket_lib.lib.WebSocketImpl;
-import me.sshcrack.websocket_lib.lib.WebSocketServerFactory;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.SSLSocketChannel2;
+import me.sshcrack.gemini_live_lib.lib.WebSocketAdapter;
+import me.sshcrack.gemini_live_lib.lib.WebSocketImpl;
+import me.sshcrack.gemini_live_lib.lib.WebSocketServerFactory;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
 
 public class DefaultSSLWebSocketServerFactory implements WebSocketServerFactory {
 

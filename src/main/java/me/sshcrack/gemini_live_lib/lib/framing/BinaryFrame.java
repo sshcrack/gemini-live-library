@@ -23,9 +23,9 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.framing;
+package me.sshcrack.gemini_live_lib.lib.framing;
 
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
 
 /**
  * Class to represent a binary frame

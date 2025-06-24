@@ -23,18 +23,18 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import javax.net.ssl.SSLSession;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
-import me.sshcrack.websocket_lib.lib.enums.ReadyState;
-import me.sshcrack.websocket_lib.lib.exceptions.WebsocketNotConnectedException;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.protocols.IProtocol;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.enums.ReadyState;
+import me.sshcrack.gemini_live_lib.lib.exceptions.WebsocketNotConnectedException;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.protocols.IProtocol;
 
 public interface WebSocket {
 

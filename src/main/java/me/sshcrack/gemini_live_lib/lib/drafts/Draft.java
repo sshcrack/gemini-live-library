@@ -23,36 +23,36 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.drafts;
+package me.sshcrack.gemini_live_lib.lib.drafts;
 
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import me.sshcrack.websocket_lib.lib.WebSocketImpl;
-import me.sshcrack.websocket_lib.lib.enums.CloseHandshakeType;
-import me.sshcrack.websocket_lib.lib.enums.HandshakeState;
-import me.sshcrack.websocket_lib.lib.enums.Opcode;
-import me.sshcrack.websocket_lib.lib.enums.Role;
-import me.sshcrack.websocket_lib.lib.exceptions.IncompleteHandshakeException;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidHandshakeException;
-import me.sshcrack.websocket_lib.lib.framing.BinaryFrame;
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
-import me.sshcrack.websocket_lib.lib.framing.ContinuousFrame;
-import me.sshcrack.websocket_lib.lib.framing.DataFrame;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.framing.TextFrame;
-import me.sshcrack.websocket_lib.lib.handshake.ClientHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.ClientHandshakeBuilder;
-import me.sshcrack.websocket_lib.lib.handshake.HandshakeBuilder;
-import me.sshcrack.websocket_lib.lib.handshake.HandshakeImpl1Client;
-import me.sshcrack.websocket_lib.lib.handshake.HandshakeImpl1Server;
-import me.sshcrack.websocket_lib.lib.handshake.Handshakedata;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshakeBuilder;
-import me.sshcrack.websocket_lib.lib.util.Charsetfunctions;
+import me.sshcrack.gemini_live_lib.lib.WebSocketImpl;
+import me.sshcrack.gemini_live_lib.lib.enums.CloseHandshakeType;
+import me.sshcrack.gemini_live_lib.lib.enums.HandshakeState;
+import me.sshcrack.gemini_live_lib.lib.enums.Opcode;
+import me.sshcrack.gemini_live_lib.lib.enums.Role;
+import me.sshcrack.gemini_live_lib.lib.exceptions.IncompleteHandshakeException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidHandshakeException;
+import me.sshcrack.gemini_live_lib.lib.framing.BinaryFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.ContinuousFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.DataFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.framing.TextFrame;
+import me.sshcrack.gemini_live_lib.lib.handshake.ClientHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.ClientHandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.handshake.HandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.handshake.HandshakeImpl1Client;
+import me.sshcrack.gemini_live_lib.lib.handshake.HandshakeImpl1Server;
+import me.sshcrack.gemini_live_lib.lib.handshake.Handshakedata;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.util.Charsetfunctions;
 
 /**
  * Base class for everything of a websocket specification which is not common such as the way the

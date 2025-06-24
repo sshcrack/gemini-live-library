@@ -27,4 +27,4 @@
 /**
  * This package encapsulates all new interfaces.
  */
-package me.sshcrack.websocket_lib.lib.interfaces;
+package me.sshcrack.gemini_live_lib.lib.interfaces;

@@ -23,12 +23,12 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ByteChannel;
-import me.sshcrack.websocket_lib.lib.enums.Role;
+import me.sshcrack.gemini_live_lib.lib.enums.Role;
 
 public class SocketChannelIOHelper {
 

@@ -26,4 +26,4 @@
 /**
  * This package encapsulates all enums.
  */
-package me.sshcrack.websocket_lib.lib.enums;
+package me.sshcrack.gemini_live_lib.lib.enums;

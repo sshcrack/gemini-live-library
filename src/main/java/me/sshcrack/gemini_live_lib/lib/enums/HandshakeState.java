@@ -1,4 +1,4 @@
-package me.sshcrack.websocket_lib.lib.enums;
+package me.sshcrack.gemini_live_lib.lib.enums;
 
 /**
  * Enum which represents the states a handshake may be in

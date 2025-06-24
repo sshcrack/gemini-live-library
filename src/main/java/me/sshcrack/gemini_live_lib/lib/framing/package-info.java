@@ -27,4 +27,4 @@
  * This package encapsulates all interfaces and implementations in relation with the WebSocket
  * frames.
  */
-package me.sshcrack.websocket_lib.lib.framing;
+package me.sshcrack.gemini_live_lib.lib.framing;

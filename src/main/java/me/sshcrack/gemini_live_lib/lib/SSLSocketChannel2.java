@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -46,7 +46,7 @@ import javax.net.ssl.SSLEngineResult.HandshakeStatus;
 import javax.net.ssl.SSLEngineResult.Status;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
-import me.sshcrack.websocket_lib.lib.interfaces.ISSLChannel;
+import me.sshcrack.gemini_live_lib.lib.interfaces.ISSLChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

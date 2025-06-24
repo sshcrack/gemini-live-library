@@ -23,17 +23,17 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.framing.PingFrame;
-import me.sshcrack.websocket_lib.lib.framing.PongFrame;
-import me.sshcrack.websocket_lib.lib.handshake.ClientHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.HandshakeImpl1Server;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.framing.PingFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.PongFrame;
+import me.sshcrack.gemini_live_lib.lib.handshake.ClientHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.HandshakeImpl1Server;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshakeBuilder;
 
 /**
  * This class default implements all methods of the WebSocketListener that can be overridden
@@ -46,7 +46,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
   /**
    * This default implementation does not do anything. Go ahead and overwrite it.
    *
-   * @see me.sshcrack.websocket_lib.lib.WebSocketListener#onWebsocketHandshakeReceivedAsServer(WebSocket,
+   * @see me.sshcrack.gemini_live_lib.lib.WebSocketListener#onWebsocketHandshakeReceivedAsServer(WebSocket,
    * Draft, ClientHandshake)
    */
   @Override
@@ -65,7 +65,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
    * This default implementation does not do anything which will cause the connections to always
    * progress.
    *
-   * @see me.sshcrack.websocket_lib.lib.WebSocketListener#onWebsocketHandshakeSentAsClient(WebSocket,
+   * @see me.sshcrack.gemini_live_lib.lib.WebSocketListener#onWebsocketHandshakeSentAsClient(WebSocket,
    * ClientHandshake)
    */
   @Override
@@ -78,7 +78,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
    * This default implementation will send a pong in response to the received ping. The pong frame
    * will have the same payload as the ping frame.
    *
-   * @see me.sshcrack.websocket_lib.lib.WebSocketListener#onWebsocketPing(WebSocket, Framedata)
+   * @see me.sshcrack.gemini_live_lib.lib.WebSocketListener#onWebsocketPing(WebSocket, Framedata)
    */
   @Override
   public void onWebsocketPing(WebSocket conn, Framedata f) {
@@ -88,7 +88,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
   /**
    * This default implementation does not do anything. Go ahead and overwrite it.
    *
-   * @see me.sshcrack.websocket_lib.lib.WebSocketListener#onWebsocketPong(WebSocket, Framedata)
+   * @see me.sshcrack.gemini_live_lib.lib.WebSocketListener#onWebsocketPong(WebSocket, Framedata)
    */
   @Override
   public void onWebsocketPong(WebSocket conn, Framedata f) {
@@ -101,7 +101,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
    *
    * @param conn The <code>WebSocket</code> connection from which the ping frame will be sent.
    * @return PingFrame to be sent.
-   * @see me.sshcrack.websocket_lib.lib.WebSocketListener#onPreparePing(WebSocket)
+   * @see me.sshcrack.gemini_live_lib.lib.WebSocketListener#onPreparePing(WebSocket)
    */
   @Override
   public PingFrame onPreparePing(WebSocket conn) {

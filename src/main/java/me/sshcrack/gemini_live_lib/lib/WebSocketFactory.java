@@ -23,10 +23,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.util.List;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
 
 public interface WebSocketFactory {
 

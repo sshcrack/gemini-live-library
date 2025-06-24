@@ -23,19 +23,19 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
-import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
-import me.sshcrack.websocket_lib.lib.framing.Framedata;
-import me.sshcrack.websocket_lib.lib.framing.PingFrame;
-import me.sshcrack.websocket_lib.lib.handshake.ClientHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.Handshakedata;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshake;
-import me.sshcrack.websocket_lib.lib.handshake.ServerHandshakeBuilder;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.Framedata;
+import me.sshcrack.gemini_live_lib.lib.framing.PingFrame;
+import me.sshcrack.gemini_live_lib.lib.handshake.ClientHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.Handshakedata;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshake;
+import me.sshcrack.gemini_live_lib.lib.handshake.ServerHandshakeBuilder;
 
 /**
  * Implemented by <code>WebSocketClient</code> and <code>WebSocketServer</code>. The methods within are

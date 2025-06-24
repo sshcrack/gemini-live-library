@@ -26,4 +26,4 @@
 /**
  * This package encapsulates the utility classes.
  */
-package me.sshcrack.websocket_lib.lib.util;
+package me.sshcrack.gemini_live_lib.lib.util;

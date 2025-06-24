@@ -23,9 +23,9 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib.exceptions;
+package me.sshcrack.gemini_live_lib.lib.exceptions;
 
-import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
+import me.sshcrack.gemini_live_lib.lib.framing.CloseFrame;
 
 /**
  * exception which indicates that a invalid handshake was received (CloseFrame.PROTOCOL_ERROR)

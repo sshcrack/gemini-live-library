@@ -23,14 +23,14 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.sshcrack.websocket_lib.lib;
+package me.sshcrack.gemini_live_lib.lib;
 
 import java.io.IOException;
 import java.nio.channels.ByteChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.List;
-import me.sshcrack.websocket_lib.lib.drafts.Draft;
+import me.sshcrack.gemini_live_lib.lib.drafts.Draft;
 
 /**
  * Interface to encapsulate the required methods for a websocket factory
