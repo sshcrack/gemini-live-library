@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public abstract class GeminiWsClient extends WebSocketClient {
+public abstract class GeminiLiveClient extends WebSocketClient {
     public static boolean quotaExceeded = false;
 
     private final List<short[]> audioBatch = Collections.synchronizedList(new ArrayList<>());
@@ -34,14 +34,14 @@ public abstract class GeminiWsClient extends WebSocketClient {
         return "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=" + apiKey;
     }
 
-    public GeminiWsClient(String apiKey) {
+    public GeminiLiveClient(String apiKey) {
         super(URI.create(getUrl(apiKey)));
 
         this.BATCH_TIMEOUT = 100;
         this.MAX_BATCH_SIZE = 5;
     }
 
-    public GeminiWsClient(String apiKey, long batchTimeout, int maxBatchSize) {
+    public GeminiLiveClient(String apiKey, long batchTimeout, int maxBatchSize) {
         super(URI.create(getUrl(apiKey)));
         this.BATCH_TIMEOUT = batchTimeout;
         this.MAX_BATCH_SIZE = maxBatchSize;

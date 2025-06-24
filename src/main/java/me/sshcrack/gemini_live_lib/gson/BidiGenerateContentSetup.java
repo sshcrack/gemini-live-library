@@ -1,6 +1,6 @@
 package me.sshcrack.gemini_live_lib.gson;
 
-import me.sshcrack.mc_talking.gson.properties.Property;
+import me.sshcrack.gemini_live_lib.gson.properties.Property;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
