@@ -23,15 +23,15 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.server;
+package me.sshcrack.websocket_lib.lib.server;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.List;
-import org.java_websocket.WebSocketAdapter;
-import org.java_websocket.WebSocketImpl;
-import org.java_websocket.WebSocketServerFactory;
-import org.java_websocket.drafts.Draft;
+import me.sshcrack.websocket_lib.lib.WebSocketAdapter;
+import me.sshcrack.websocket_lib.lib.WebSocketImpl;
+import me.sshcrack.websocket_lib.lib.WebSocketServerFactory;
+import me.sshcrack.websocket_lib.lib.drafts.Draft;
 
 public class DefaultWebSocketServerFactory implements WebSocketServerFactory {
 

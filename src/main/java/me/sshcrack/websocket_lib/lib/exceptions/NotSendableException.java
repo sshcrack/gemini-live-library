@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.exceptions;
+package me.sshcrack.websocket_lib.lib.exceptions;
 
 /**
  * exception which indicates the frame payload is not sendable

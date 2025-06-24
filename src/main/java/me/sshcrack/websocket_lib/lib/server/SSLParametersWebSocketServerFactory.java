@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.server;
+package me.sshcrack.websocket_lib.lib.server;
 
 import java.io.IOException;
 import java.nio.channels.ByteChannel;
@@ -34,7 +34,7 @@ import java.util.concurrent.Executors;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLParameters;
-import org.java_websocket.SSLSocketChannel2;
+import me.sshcrack.websocket_lib.lib.SSLSocketChannel2;
 
 /**
  * WebSocketFactory that can be configured to only support specific protocols and cipher suites.

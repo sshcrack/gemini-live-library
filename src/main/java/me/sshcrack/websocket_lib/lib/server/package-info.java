@@ -26,4 +26,4 @@
 /**
  * This package encapsulates all implementations in relation with the WebSocketServer.
  */
-package org.java_websocket.server;
+package me.sshcrack.websocket_lib.lib.server;

@@ -26,4 +26,4 @@
 /**
  * This package encapsulates all implementations in relation with the WebSocket drafts.
  */
-package org.java_websocket.drafts;
+package me.sshcrack.websocket_lib.lib.drafts;

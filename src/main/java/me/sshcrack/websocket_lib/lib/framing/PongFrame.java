@@ -23,9 +23,9 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.framing;
+package me.sshcrack.websocket_lib.lib.framing;
 
-import org.java_websocket.enums.Opcode;
+import me.sshcrack.websocket_lib.lib.enums.Opcode;
 
 /**
  * Class to represent a pong frame

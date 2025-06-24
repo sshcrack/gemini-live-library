@@ -27,4 +27,4 @@
  * This package encapsulates all interfaces and implementations in relation with the WebSocket
  * Sec-WebSocket-Protocol.
  */
-package org.java_websocket.protocols;
+package me.sshcrack.websocket_lib.lib.protocols;

@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.server;
+package me.sshcrack.websocket_lib.lib.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -53,20 +53,20 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.java_websocket.AbstractWebSocket;
-import org.java_websocket.SocketChannelIOHelper;
-import org.java_websocket.WebSocket;
-import org.java_websocket.WebSocketFactory;
-import org.java_websocket.WebSocketImpl;
-import org.java_websocket.WebSocketServerFactory;
-import org.java_websocket.WrappedByteChannel;
-import org.java_websocket.drafts.Draft;
-import org.java_websocket.exceptions.WebsocketNotConnectedException;
-import org.java_websocket.exceptions.WrappedIOException;
-import org.java_websocket.framing.CloseFrame;
-import org.java_websocket.framing.Framedata;
-import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.handshake.Handshakedata;
+import me.sshcrack.websocket_lib.lib.AbstractWebSocket;
+import me.sshcrack.websocket_lib.lib.SocketChannelIOHelper;
+import me.sshcrack.websocket_lib.lib.WebSocket;
+import me.sshcrack.websocket_lib.lib.WebSocketFactory;
+import me.sshcrack.websocket_lib.lib.WebSocketImpl;
+import me.sshcrack.websocket_lib.lib.WebSocketServerFactory;
+import me.sshcrack.websocket_lib.lib.WrappedByteChannel;
+import me.sshcrack.websocket_lib.lib.drafts.Draft;
+import me.sshcrack.websocket_lib.lib.exceptions.WebsocketNotConnectedException;
+import me.sshcrack.websocket_lib.lib.exceptions.WrappedIOException;
+import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
+import me.sshcrack.websocket_lib.lib.framing.Framedata;
+import me.sshcrack.websocket_lib.lib.handshake.ClientHandshake;
+import me.sshcrack.websocket_lib.lib.handshake.Handshakedata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

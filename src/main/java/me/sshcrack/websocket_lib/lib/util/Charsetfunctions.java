@@ -23,15 +23,15 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.util;
+package me.sshcrack.websocket_lib.lib.util;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
-import org.java_websocket.exceptions.InvalidDataException;
-import org.java_websocket.framing.CloseFrame;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
 
 public class Charsetfunctions {
 

@@ -23,10 +23,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.framing;
+package me.sshcrack.websocket_lib.lib.framing;
 
 import java.nio.ByteBuffer;
-import org.java_websocket.enums.Opcode;
+import me.sshcrack.websocket_lib.lib.enums.Opcode;
 
 /**
  * The interface for the frame

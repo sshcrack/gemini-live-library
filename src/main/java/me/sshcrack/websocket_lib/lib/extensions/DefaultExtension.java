@@ -23,11 +23,11 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.extensions;
+package me.sshcrack.websocket_lib.lib.extensions;
 
-import org.java_websocket.exceptions.InvalidDataException;
-import org.java_websocket.exceptions.InvalidFrameException;
-import org.java_websocket.framing.Framedata;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidFrameException;
+import me.sshcrack.websocket_lib.lib.framing.Framedata;
 
 /**
  * Class which represents the normal websocket implementation specified by rfc6455.

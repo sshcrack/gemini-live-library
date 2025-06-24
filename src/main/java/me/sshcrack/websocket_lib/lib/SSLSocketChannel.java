@@ -37,8 +37,8 @@ import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLEngineResult.HandshakeStatus;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
-import org.java_websocket.interfaces.ISSLChannel;
-import org.java_websocket.util.ByteBufferUtils;
+import me.sshcrack.websocket_lib.lib.interfaces.ISSLChannel;
+import me.sshcrack.websocket_lib.lib.util.ByteBufferUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

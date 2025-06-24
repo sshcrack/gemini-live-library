@@ -1,4 +1,4 @@
-package org.java_websocket.extensions;
+package me.sshcrack.websocket_lib.lib.extensions;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

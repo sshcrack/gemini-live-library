@@ -31,8 +31,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import org.java_websocket.framing.CloseFrame;
-import org.java_websocket.util.NamedThreadFactory;
+import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
+import me.sshcrack.websocket_lib.lib.util.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
