@@ -18,6 +18,16 @@ base {
     archivesName = mod_id
 }
 
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.set('sources')
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+
 // Forge recommends Java 17 for 1.20.1
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -31,14 +41,6 @@ minecraft {
     copyIdeResources = true
 
     runs {
-        configureEach {
-            lazyToken('minecraft_classpath') {
-                configurations.library.copyRecursive().resolve().collect {
-                    it.absolutePath
-                }.join(File.pathSeparator)
-            }
-        }
-
         client {
             workingDirectory project.file('run_forge')
 
@@ -124,27 +126,9 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-
     maven {
-        name = "henkelmax.public"
-        url = 'https://maven.maxhenkel.de/repository/public'
-    }
-
-    maven {
-        name 'LDTTeam - Mods Maven'
-        url 'https://ldtteam.jfrog.io/ldtteam/mods-maven/'
-    }
-
-    maven {
-        // location of the maven that hosts JEI files since January 2023
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.dev"
+        name "sshcracks Repository"
+        url "https://maven.sshcrack.me/releases"
     }
 }
 
@@ -253,7 +237,33 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     mainFile.changelog = "Changelog cna be found at the source repository."
 }
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'me.sshcrack'
+            artifactId = mod_id
+            version = project.version + "-forge"
+
+            artifact(jar)
+            artifact(sourcesJar)
+        }
+    }
+    
+    repositories {
+        maven {
+            name = "sshcrackRepository"
+            url = "https://maven.sshcrack.me/releases"
+            
+            credentials {
+                username = localProperties.getProperty('MAVEN_USERNAME') ?: System.getenv('MAVEN_USERNAME')
+                password = localProperties.getProperty('MAVEN_PASSWORD') ?: System.getenv('MAVEN_PASSWORD')
+            }
+        }
+    }
+}
+
 tasks.register("publishAll")
 
 tasks.publishAll.dependsOn(tasks.modrinth)
 tasks.publishAll.dependsOn(tasks.publishCurseForge)
+tasks.publishAll.dependsOn(tasks.publish)
