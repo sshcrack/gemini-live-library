@@ -1,4 +1,4 @@
-package me.sshcrack.mc_talking;
+package me.sshcrack.websocket_lib;
 
 import net.minecraftforge.fml.common.Mod;
 
