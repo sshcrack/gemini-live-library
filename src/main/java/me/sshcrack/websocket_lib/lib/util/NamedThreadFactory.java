@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.util;
+package me.sshcrack.websocket_lib.lib.util;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;

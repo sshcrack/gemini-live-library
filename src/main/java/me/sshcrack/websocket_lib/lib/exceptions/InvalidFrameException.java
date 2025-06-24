@@ -23,9 +23,9 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.exceptions;
+package me.sshcrack.websocket_lib.lib.exceptions;
 
-import org.java_websocket.framing.CloseFrame;
+import me.sshcrack.websocket_lib.lib.framing.CloseFrame;
 
 /**
  * exception which indicates that a invalid frame was received (CloseFrame.PROTOCOL_ERROR)

@@ -24,7 +24,7 @@
  *
  */
 
-package org.java_websocket.interfaces;
+package me.sshcrack.websocket_lib.lib.interfaces;
 
 import javax.net.ssl.SSLEngine;
 

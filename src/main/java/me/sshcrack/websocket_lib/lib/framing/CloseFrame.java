@@ -23,14 +23,14 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.framing;
+package me.sshcrack.websocket_lib.lib.framing;
 
 import java.nio.ByteBuffer;
-import org.java_websocket.enums.Opcode;
-import org.java_websocket.exceptions.InvalidDataException;
-import org.java_websocket.exceptions.InvalidFrameException;
-import org.java_websocket.util.ByteBufferUtils;
-import org.java_websocket.util.Charsetfunctions;
+import me.sshcrack.websocket_lib.lib.enums.Opcode;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidFrameException;
+import me.sshcrack.websocket_lib.lib.util.ByteBufferUtils;
+import me.sshcrack.websocket_lib.lib.util.Charsetfunctions;
 
 /**
  * Class to represent a close frame

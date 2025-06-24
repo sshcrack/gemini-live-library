@@ -23,13 +23,13 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.extensions;
+package me.sshcrack.websocket_lib.lib.extensions;
 
-import org.java_websocket.exceptions.InvalidDataException;
-import org.java_websocket.exceptions.InvalidFrameException;
-import org.java_websocket.framing.ControlFrame;
-import org.java_websocket.framing.DataFrame;
-import org.java_websocket.framing.Framedata;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidFrameException;
+import me.sshcrack.websocket_lib.lib.framing.ControlFrame;
+import me.sshcrack.websocket_lib.lib.framing.DataFrame;
+import me.sshcrack.websocket_lib.lib.framing.Framedata;
 
 /**
  * Implementation for a compression extension specified by https://tools.ietf.org/html/rfc7692

@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.handshake;
+package me.sshcrack.websocket_lib.lib.handshake;
 
 import java.util.Collections;
 import java.util.Iterator;

@@ -26,4 +26,4 @@
 /**
  * This package encapsulates the utility classes.
  */
-package org.java_websocket.util;
+package me.sshcrack.websocket_lib.lib.util;

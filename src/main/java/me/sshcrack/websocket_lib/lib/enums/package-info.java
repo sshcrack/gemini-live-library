@@ -26,4 +26,4 @@
 /**
  * This package encapsulates all enums.
  */
-package org.java_websocket.enums;
+package me.sshcrack.websocket_lib.lib.enums;

@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.handshake;
+package me.sshcrack.websocket_lib.lib.handshake;
 
 /**
  * The interface for building a handshake for the client

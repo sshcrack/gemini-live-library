@@ -23,10 +23,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.framing;
+package me.sshcrack.websocket_lib.lib.framing;
 
-import org.java_websocket.enums.Opcode;
-import org.java_websocket.exceptions.InvalidDataException;
+import me.sshcrack.websocket_lib.lib.enums.Opcode;
+import me.sshcrack.websocket_lib.lib.exceptions.InvalidDataException;
 
 /**
  * Abstract class to represent data frames

@@ -1,4 +1,4 @@
-package org.java_websocket.exceptions;
+package me.sshcrack.websocket_lib.lib.exceptions;
 
 import java.io.UnsupportedEncodingException;
 

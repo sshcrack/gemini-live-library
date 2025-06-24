@@ -27,4 +27,4 @@
 /**
  * This package encapsulates all new interfaces.
  */
-package org.java_websocket.interfaces;
+package me.sshcrack.websocket_lib.lib.interfaces;

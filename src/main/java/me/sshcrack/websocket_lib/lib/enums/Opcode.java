@@ -1,4 +1,4 @@
-package org.java_websocket.enums;
+package me.sshcrack.websocket_lib.lib.enums;
 
 /**
  * Enum which contains the different valid opcodes

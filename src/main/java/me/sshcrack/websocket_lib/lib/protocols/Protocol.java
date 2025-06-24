@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.protocols;
+package me.sshcrack.websocket_lib.lib.protocols;
 
 import java.util.regex.Pattern;
 

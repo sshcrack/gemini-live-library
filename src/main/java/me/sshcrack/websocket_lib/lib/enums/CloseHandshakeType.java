@@ -1,4 +1,4 @@
-package org.java_websocket.enums;
+package me.sshcrack.websocket_lib.lib.enums;
 
 /**
  * Enum which represents type of handshake is required for a close

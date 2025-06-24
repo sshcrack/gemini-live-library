@@ -23,7 +23,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.java_websocket.client;
+package me.sshcrack.websocket_lib.lib.client;
 
 import java.net.InetAddress;
 import java.net.URI;

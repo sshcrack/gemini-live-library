@@ -26,7 +26,7 @@
 package me.sshcrack.websocket_lib.lib;
 
 import java.util.List;
-import org.java_websocket.drafts.Draft;
+import me.sshcrack.websocket_lib.lib.drafts.Draft;
 
 public interface WebSocketFactory {
 

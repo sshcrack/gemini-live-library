@@ -26,4 +26,4 @@
 /**
  * This package encapsulates all implementations in relation with the WebSocketClient.
  */
-package org.java_websocket.client;
+package me.sshcrack.websocket_lib.lib.client;
