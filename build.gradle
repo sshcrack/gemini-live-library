@@ -198,12 +198,12 @@ def curse_key = localProperties.getProperty('CURSEFORGE_API_KEY') ?: ""
 // Place modrinth block at the very end to ensure all properties are loaded and plugin is applied
 modrinth {
     token = modrinth_key
-    projectId = 'websocket-lib'
+    projectId = 'gemini-live-lib'
     uploadFile = jar.archiveFile
     versionType = "release"
     loaders = ["neoforge"]
     gameVersions = [minecraft_version]
-    changelog = "Changelog cna be found at the source repository."
+    changelog = "Changelog can be found at the source repository."
     syncBodyFrom = rootProject.file("README.md").text
 }
 
