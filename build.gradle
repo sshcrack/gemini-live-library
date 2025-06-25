@@ -198,7 +198,7 @@ def curse_key = localProperties.getProperty('CURSEFORGE_API_KEY') ?: ""
 // Place modrinth block at the very end to ensure all properties are loaded and plugin is applied
 modrinth {
     token = modrinth_key
-    projectId = 'gemini-live-lib'
+    projectId = 'gemini_live_lib'
     uploadFile = jar.archiveFile
     versionType = "release"
     loaders = ["neoforge"]
