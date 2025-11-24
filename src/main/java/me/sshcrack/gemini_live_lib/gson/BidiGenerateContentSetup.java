@@ -1,5 +1,6 @@
 package me.sshcrack.gemini_live_lib.gson;
 
+import com.google.gson.JsonObject;
 import me.sshcrack.gemini_live_lib.gson.properties.Property;
 import org.jetbrains.annotations.NotNull;
 
@@ -120,6 +121,9 @@ public class BidiGenerateContentSetup {
 
     public RealtimeInputConfig realtimeInputConfig;
 
+    public JsonObject inputAudioTranscription;
+    public JsonObject outputAudioTranscription;
+
     public static class RealtimeInputConfig {
         //TODO rest of the fields
         public TurnCoverage turnCoverage;
@@ -128,6 +132,33 @@ public class BidiGenerateContentSetup {
             TURN_COVERAGE_UNSPECIFIED,
             TURN_INCLUDES_ONLY_ACTIVITY,
             TURN_INCLUDES_ALL_INPUT
+        }
+
+        public enum ActivityHandling {
+            ACTIVITY_HANDLING_UNSPECIFIED,
+            START_OF_ACTIVITY_INTERRUPTS,
+            NO_INTERRUPTION
+        }
+
+        public AutomaticActivityDetection automaticActivityDetection;
+        public static class AutomaticActivityDetection {
+            public boolean disabled;
+
+            public enum StartSensitivity {
+                START_SENSITIVITY_UNSPECIFIED,
+                START_SENSITIVITY_HIGH,
+                START_SENSITIVITY_LOW
+            }
+
+            public StartSensitivity startSensitivity;
+            public Integer prefixPaddingMs;
+            public enum EndSensitivity {
+                END_SENSITIVITY_UNSPECIFIED,
+                END_SENSITIVITY_HIGH,
+                END_SENSITIVITY_LOW
+            }
+
+            public Integer silenceDurationMs;
         }
     }
 }
