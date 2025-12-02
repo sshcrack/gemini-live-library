@@ -155,6 +155,14 @@ public abstract class GeminiLiveClient extends WebSocketClient {
                 return;
             }
 
+            if (obj.has("outputTranscription")) {
+                onOutputTranscription(obj.get("outputTranscription").getAsJsonObject().get("text").getAsString());
+            }
+
+            if (obj.has("inputTranscription")) {
+                onInputTranscription(obj.get("inputTranscription").getAsJsonObject().get("text").getAsString());
+            }
+
             if (obj.has("interrupted") && obj.get("interrupted").getAsBoolean()) {
                 onInterrupted();
                 return;
@@ -239,6 +247,12 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     public void onTurnComplete() {
 
+    }
+
+    public void onInputTranscription(String transcription) {
+    }
+
+    public void onOutputTranscription(String transcription) {
     }
 
     /**
