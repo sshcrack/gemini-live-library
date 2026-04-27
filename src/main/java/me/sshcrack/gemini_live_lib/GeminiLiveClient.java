@@ -16,8 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class GeminiLiveClient extends WebSocketClient {
-    public static boolean quotaExceeded = false;
-
     private final List<short[]> audioBatch = Collections.synchronizedList(new ArrayList<>());
     protected final long BATCH_TIMEOUT; // 100ms batch window
     protected final int MAX_BATCH_SIZE; // Maximum number of audio packets in a batch
@@ -27,8 +25,7 @@ public abstract class GeminiLiveClient extends WebSocketClient {
     private final Object batchLock = new Object();
 
 
-    protected boolean setupComplete = false;
-    protected boolean isInitiatingConnection = false;
+    private boolean setupComplete = false;
 
     private static String getUrl(String apiKey) {
         return "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=" + apiKey;
@@ -47,14 +44,15 @@ public abstract class GeminiLiveClient extends WebSocketClient {
         this.MAX_BATCH_SIZE = maxBatchSize;
     }
 
+    public boolean isSetupComplete() {
+        return setupComplete;
+    }
+
     @Override
     public void onClose(int code, String reason, boolean remote) {
         if (reason.contains("You exceeded your current quota, please")) {
-            quotaExceeded = true;
             onQuotaExceeded();
         }
-
-        isInitiatingConnection = false;
     }
 
     public void onQuotaExceeded() {
@@ -64,12 +62,10 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake data) {
-        isInitiatingConnection = false;
         send(ClientMessages.setup(getSetup()));
     }
 
     public void onSetupComplete() {
-
     }
 
     @Override

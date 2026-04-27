@@ -1,5 +1,6 @@
 plugins {
     id("mod-platform")
+    id("maven-publish")
     id("net.neoforged.moddev")
 }
 
@@ -82,6 +83,34 @@ repositories {
 dependencies {
     implementation(libs.moulberry.mixinconstraints)
     jarJar(libs.moulberry.mixinconstraints)
+}
+
+var loader = sc.current.component1().split("-")[1];
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "me.sshcrack"
+            artifactId = prop("mod.id")
+            version = "${prop("mod.version")}-${prop("deps.minecraft")}-${loader}"
+
+            artifact(tasks.named("jar"))
+            tasks.findByName("sourcesJar")?.let { artifact(it) }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "sshcrack"
+            url = uri("https://maven.sshcrack.me/releases")
+
+            credentials {
+                username = (findProperty("sshcrackRepoMavenUser") as String?)
+                    ?: System.getenv("sshcrackRepoMavenUser")
+                password = (findProperty("sshcrackRepoMavenPassword") as String?)
+                    ?: System.getenv("sshcrackRepoMavenPassword")
+            }
+        }
+    }
 }
 
 tasks.named("createMinecraftArtifacts") {
