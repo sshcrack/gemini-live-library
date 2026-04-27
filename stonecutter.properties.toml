@@ -1,0 +1,35 @@
+mod.id = "gemini_live_lib"
+mod.name = "Gemini Live Library"
+mod.group = "me.sshcrack.gemini_live_lib"
+mod.version = "2.1.2"
+mod.channel_tag = ""
+mod.description = "Changes the System Prompt for citizens to be more fitting for a zombie apocalypse modpack"
+mod.authors = ["sshcrack"]
+mod.contributors = []
+mod.inception_year = "2025"
+mod.license.name = "All rights reserved"
+mod.license.url = "https://github.com/sshcrack/gemini-live-library/blob/main/LICENSE.md"
+mod.license.dist = "repo"
+mod.sources_url = "https://github.com/sshcrack/gemini-live-library"
+mod.homepage_url = "https://github.com/sshcrack/gemini-live-library"
+mod.issues_url = "https://github.com/sshcrack/gemini-live-library/issues"
+mod.discord_url = "https://discord.gg/ScAsuQt5em"
+
+[[mod.pom.developers]]
+id = "sshcrack"
+name = "sshcrack"
+url = "https://github.com/sshcrack"
+
+[forge]
+
+[forge."1.20.1"]
+deps.minecraft = "1.20.1"
+deps.forge = "47.2.0"
+
+
+[neoforge]
+
+[neoforge."1.21.1"]
+deps.minecraft = "1.21.1"
+deps.parchment = "1.21.1:2024.11.17"
+deps.neoforge = "21.1.213"

@@ -1,24 +1,16 @@
 package me.sshcrack.gemini_live_lib;
 
 import com.mojang.logging.LogUtils;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
+/*? if forge {*/
+/*import net.minecraftforge.fml.common.Mod;
+ *//*?}*/
+/*? if neoforge {*/
+import net.neoforged.fml.common.Mod;
+/*?}*/
 
-@Mod(GeminiLiveLib.MODID)
+@Mod(GeminiLiveLib.MOD_ID)
 public class GeminiLiveLib {
-    public static final String MODID = "gemini_live_lib";
+    public static final String MOD_ID = /*$ mod_id*/ "gemini_live_lib";
     public static final Logger LOGGER = LogUtils.getLogger();
-
-    /**
-     * Constructor for the mod class.
-     * Registers event listeners, configurations, and initializes necessary components.
-     *
-     * @param modEventBus  The mod event bus to register events
-     * @param modContainer The mod container for configuration
-     */
-    public GeminiLiveLib(IEventBus modEventBus, ModContainer modContainer) {
-
-    }
 }
