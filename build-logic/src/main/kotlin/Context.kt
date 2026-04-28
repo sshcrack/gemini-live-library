@@ -50,4 +50,3 @@ class Context(
 		else -> JavaVersion.VERSION_1_8
 	}
 }
-

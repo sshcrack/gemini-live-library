@@ -1,7 +1,7 @@
 mod.id = "gemini_live_lib"
 mod.name = "Gemini Live Library"
 mod.group = "me.sshcrack.gemini_live_lib"
-mod.version = "2.2.0"
+mod.version = "2.3.0"
 mod.channel_tag = ""
 mod.description = "Changes the System Prompt for citizens to be more fitting for a zombie apocalypse modpack"
 mod.authors = ["sshcrack"]
