@@ -140,7 +140,7 @@ public class GeminiTTS {
         }
 
         if (audioChunks.isEmpty()) {
-            throw new UnexpectedResponseException(String.format("Expceted audio chunks for TTS generation, but got: %s", response.body()));
+            throw new UnexpectedResponseException(String.format("Expected audio chunks for TTS generation, but got: %s", response.body()));
         }
 
         return audioChunks;
