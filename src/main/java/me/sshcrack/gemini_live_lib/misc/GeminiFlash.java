@@ -35,6 +35,22 @@ public class GeminiFlash {
         return String.format("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s", model, apiKey);
     }
 
+    public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt) throws IOException, InterruptedException, UnexpectedResponseException {
+        GenerateContentRequest request = new GenerateContentRequest();
+        request.system_instruction = new GenerateContentRequest.SystemInstruction();
+
+        var sytemPart = new GenerateContentRequest.Part();
+        sytemPart.text = systemPrompt;
+        request.system_instruction.parts = List.of(sytemPart);
+
+        var contentPart = new GenerateContentRequest.Part();
+        contentPart.text = prompt;
+        request.contents = new GenerateContentRequest.Content();
+        request.contents.parts = List.of(contentPart);
+
+        return sendFlashRequest(model, apiKey, request);
+    }
+
 
     /**
      * @param model                  the gemini model to use (e.g. "gemini-3-flash-preview")
