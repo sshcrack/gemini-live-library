@@ -3,15 +3,19 @@ package me.sshcrack.gemini_live_lib.misc;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 
 public class GeminiTTS {
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -102,7 +106,11 @@ public class GeminiTTS {
         return -1;
     }
 
-    public static List<AudioChunk> generateAudioConversation(String model, String apiKey, RequestPayload payload) throws IOException, InterruptedException, UnexpectedResponseException {
+    /**
+     * Streams the TTS response and passes decoded audio chunks to the provided consumer.
+     * The method blocks while the HTTP response is being read.
+     */
+    public static void streamGenerateAudioConversation(String model, String apiKey, RequestPayload payload, Consumer<AudioChunk> chunkConsumer) throws IOException, InterruptedException, UnexpectedResponseException {
         Gson gson = new Gson();
         String payloadStr = gson.toJson(payload, RequestPayload.class);
 
@@ -112,37 +120,60 @@ public class GeminiTTS {
                 .header("Content-Type", "application/json")
                 .build();
 
-        HttpResponse<String> response = client.send(
+        HttpResponse<InputStream> response = client.send(
                 request,
-                HttpResponse.BodyHandlers.ofString()
+                HttpResponse.BodyHandlers.ofInputStream()
         );
 
+        InputStream is = response.body();
+        boolean foundAny = false;
+        try (InputStreamReader isr = new InputStreamReader(is); JsonReader jr = new JsonReader(isr)) {
+            jr.setLenient(true);
 
-        TtsResponse.Item[] responseArray = gson.fromJson(response.body(), TtsResponse.Item[].class);
+            JsonToken next = jr.peek();
+            if (next == JsonToken.BEGIN_ARRAY) {
+                jr.beginArray();
+                while (jr.hasNext()) {
+                    TtsResponse.Item item = gson.fromJson(jr, TtsResponse.Item.class);
+                    if (item == null || item.candidates == null) continue;
 
-        List<AudioChunk> audioChunks = new ArrayList<>();
-        for (TtsResponse.Item item : responseArray) {
-            if (item.candidates == null) continue;
-
-            for (TtsResponse.Candidate candidate : item.candidates) {
-                if (candidate.content == null || candidate.content.parts == null) continue;
-
-                for (TtsResponse.Part part : candidate.content.parts) {
-                    if (part.inlineData == null) continue;
-
-                    byte[] audioBytes = Base64.getDecoder().decode(part.inlineData.data);
-                    String mime = part.inlineData.mimeType;
-
-                    int sampleRate = extractSampleRate(mime);
-                    audioChunks.add(new AudioChunk(audioBytes, sampleRate));
+                    for (TtsResponse.Candidate candidate : item.candidates) {
+                        if (candidate.content == null || candidate.content.parts == null) continue;
+                        for (TtsResponse.Part part : candidate.content.parts) {
+                            if (part.inlineData == null || part.inlineData.data == null) continue;
+                            byte[] audioBytes = Base64.getDecoder().decode(part.inlineData.data);
+                            int sampleRate = extractSampleRate(part.inlineData.mimeType);
+                            chunkConsumer.accept(new AudioChunk(audioBytes, sampleRate));
+                            foundAny = true;
+                        }
+                    }
+                }
+                jr.endArray();
+            } else {
+                // Possibly newline-delimited JSON objects or a single object
+                while (jr.peek() != JsonToken.END_DOCUMENT) {
+                    if (jr.peek() == JsonToken.BEGIN_OBJECT) {
+                        TtsResponse.Item item = gson.fromJson(jr, TtsResponse.Item.class);
+                        if (item == null || item.candidates == null) continue;
+                        for (TtsResponse.Candidate candidate : item.candidates) {
+                            if (candidate.content == null || candidate.content.parts == null) continue;
+                            for (TtsResponse.Part part : candidate.content.parts) {
+                                if (part.inlineData == null || part.inlineData.data == null) continue;
+                                byte[] audioBytes = Base64.getDecoder().decode(part.inlineData.data);
+                                int sampleRate = extractSampleRate(part.inlineData.mimeType);
+                                chunkConsumer.accept(new AudioChunk(audioBytes, sampleRate));
+                                foundAny = true;
+                            }
+                        }
+                    } else {
+                        jr.skipValue();
+                    }
                 }
             }
         }
 
-        if (audioChunks.isEmpty()) {
-            throw new UnexpectedResponseException(String.format("Expected audio chunks for TTS generation, but got: %s", response.body()));
+        if (!foundAny) {
+            throw new UnexpectedResponseException("Expected audio chunks for TTS generation, but none were streamed.");
         }
-
-        return audioChunks;
     }
 }

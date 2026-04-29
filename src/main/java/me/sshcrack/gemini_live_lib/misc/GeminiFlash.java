@@ -13,6 +13,8 @@ import java.util.List;
 
 public class GeminiFlash {
     private static final HttpClient client = HttpClient.newHttpClient();
+    private static final int DEFAULT_MAX_ATTEMPTS = 3;
+    private static final long INITIAL_RETRY_DELAY_MS = 500L;
 
     public static class GenerateContentRequest {
         public static class Part {
@@ -36,6 +38,10 @@ public class GeminiFlash {
     }
 
     public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt) throws IOException, InterruptedException, UnexpectedResponseException {
+        return sendSimpleFlashRequest(model, apiKey, systemPrompt, prompt, DEFAULT_MAX_ATTEMPTS);
+    }
+
+    public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt, int maxAttempts) throws IOException, InterruptedException, UnexpectedResponseException {
         GenerateContentRequest request = new GenerateContentRequest();
         request.system_instruction = new GenerateContentRequest.SystemInstruction();
 
@@ -48,7 +54,7 @@ public class GeminiFlash {
         request.contents = new GenerateContentRequest.Content();
         request.contents.parts = List.of(contentPart);
 
-        return sendFlashRequest(model, apiKey, request);
+        return sendFlashRequest(model, apiKey, request, maxAttempts);
     }
 
 
@@ -62,6 +68,14 @@ public class GeminiFlash {
      * @throws UnexpectedResponseException if the response from the Gemini API is not in the expected format (e.g. missing "candidates" field)
      */
     public static String sendFlashRequest(String model, String apiKey, GenerateContentRequest generateContentRequest) throws IOException, InterruptedException, UnexpectedResponseException {
+        return sendFlashRequest(model, apiKey, generateContentRequest, DEFAULT_MAX_ATTEMPTS);
+    }
+
+    public static String sendFlashRequest(String model, String apiKey, GenerateContentRequest generateContentRequest, int maxAttempts) throws IOException, InterruptedException, UnexpectedResponseException {
+        if (maxAttempts < 1) {
+            throw new IllegalArgumentException("maxAttempts must be at least 1");
+        }
+
         Gson gson = new Gson();
         String jsonBody = gson.toJson(generateContentRequest, GenerateContentRequest.class);
 
@@ -71,43 +85,75 @@ public class GeminiFlash {
                 .header("Content-Type", "application/json")
                 .build();
 
-        HttpResponse<String> response = client.send(
-                request,
-                HttpResponse.BodyHandlers.ofString()
-        );
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                HttpResponse<String> response = client.send(
+                        request,
+                        HttpResponse.BodyHandlers.ofString()
+                );
 
-        // This is JUST the response body
-        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
+                if (isRetryableServerResponse(response)) {
+                    if (attempt < maxAttempts) {
+                        sleepBeforeRetry(attempt);
+                        continue;
+                    }
 
-        if (!obj.has("candidates")) {
-            throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
-        }
+                    throw new UnexpectedResponseException("Gemini API returned a retryable server error after " + maxAttempts + " attempts: " + response.body());
+                }
 
-        JsonArray candidates = obj.getAsJsonArray("candidates");
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < candidates.size(); i++) {
-            JsonObject candidate = candidates.get(i).getAsJsonObject();
-            if (!candidate.has("content")) {
-                throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
-            }
+                // This is JUST the response body
+                JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
 
-            JsonObject content = candidate.getAsJsonObject("content");
-            if (!content.has("parts")) {
-                throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
-            }
-
-            JsonArray parts = content.getAsJsonArray("parts");
-            for (int j = 0; j < parts.size(); j++) {
-                JsonObject part = parts.get(j).getAsJsonObject();
-                if (!part.has("text")) {
+                if (obj == null || !obj.has("candidates")) {
                     throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
                 }
 
-                sb.append(part.get("text").getAsString());
+                JsonArray candidates = obj.getAsJsonArray("candidates");
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < candidates.size(); i++) {
+                    JsonObject candidate = candidates.get(i).getAsJsonObject();
+                    if (!candidate.has("content")) {
+                        throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
+                    }
+
+                    JsonObject content = candidate.getAsJsonObject("content");
+                    if (!content.has("parts")) {
+                        throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
+                    }
+
+                    JsonArray parts = content.getAsJsonArray("parts");
+                    for (int j = 0; j < parts.size(); j++) {
+                        JsonObject part = parts.get(j).getAsJsonObject();
+                        if (!part.has("text")) {
+                            throw new UnexpectedResponseException("Invalid response from Gemini API: " + response.body());
+                        }
+
+                        sb.append(part.get("text").getAsString());
+                    }
+                }
+
+                return sb.toString();
+            } catch (IOException e) {
+                if (attempt < maxAttempts) {
+                    sleepBeforeRetry(attempt);
+                    continue;
+                }
+
+                throw e;
             }
         }
 
-        return sb.toString();
+        throw new UnexpectedResponseException("Gemini API request failed after " + maxAttempts + " attempts.");
+    }
+
+    private static boolean isRetryableServerResponse(HttpResponse<String> response) {
+        int statusCode = response.statusCode();
+        return statusCode >= 500 && statusCode < 600;
+    }
+
+    private static void sleepBeforeRetry(int attempt) throws InterruptedException {
+        long delayMillis = INITIAL_RETRY_DELAY_MS * (1L << (attempt - 1));
+        Thread.sleep(delayMillis);
     }
 
     /*
