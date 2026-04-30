@@ -16,13 +16,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class GeminiLiveClient extends WebSocketClient {
-    private final List<short[]> audioBatch = Collections.synchronizedList(new ArrayList<>());
-    protected final long BATCH_TIMEOUT; // 100ms batch window
-    protected final int MAX_BATCH_SIZE; // Maximum number of audio packets in a batch
+    protected final long batchTimeout; // 100ms batch window
+    protected final int maxBatchSize; // Maximum number of audio packets in a batch
 
     private volatile Timer batchTimer;
     private volatile TimerTask currentBatchTask;
-    private final Object batchLock = new Object();
 
 
     private boolean setupComplete = false;
@@ -34,15 +32,10 @@ public abstract class GeminiLiveClient extends WebSocketClient {
     public GeminiLiveClient(String apiKey) {
         super(URI.create(getUrl(apiKey)));
 
-        this.BATCH_TIMEOUT = 100;
-        this.MAX_BATCH_SIZE = 5;
+        this.batchTimeout = 100;
+        this.maxBatchSize = 5;
     }
 
-    public GeminiLiveClient(String apiKey, long batchTimeout, int maxBatchSize) {
-        super(URI.create(getUrl(apiKey)));
-        this.BATCH_TIMEOUT = batchTimeout;
-        this.MAX_BATCH_SIZE = maxBatchSize;
-    }
 
     public boolean isSetupComplete() {
         return setupComplete;
@@ -249,95 +242,6 @@ public abstract class GeminiLiveClient extends WebSocketClient {
     }
 
     public void onOutputTranscription(String transcription) {
-    }
-
-    /**
-     * Batches audio data and sends it when a batch is complete or times out
-     *
-     * @param audio The audio data to batch
-     */
-    public void batchAudio(short[] audio) {
-        boolean batchFull;
-        boolean isFirstElement;
-
-        synchronized (batchLock) {
-            // Add to batch
-            audioBatch.add(audio);
-
-            // Check if batch is full
-            batchFull = audioBatch.size() >= MAX_BATCH_SIZE;
-            isFirstElement = audioBatch.size() == 1;
-        }
-
-        if (batchFull) {
-            // Process and send the batch immediately
-            sendCurrentBatch();
-        } else if (isFirstElement) {
-            // If this is the first element in the batch, start the timer
-            scheduleFlushTimer();
-        }
-    }
-
-
-    /**
-     * Schedules a timer to flush the current batch after the timeout period
-     */
-    protected void scheduleFlushTimer() {
-        // Cancel any existing task
-        if (currentBatchTask != null) {
-            currentBatchTask.cancel();
-        }
-
-        // Create new task
-        currentBatchTask = new TimerTask() {
-            @Override
-            public void run() {
-                if (!audioBatch.isEmpty()) {
-                    sendCurrentBatch();
-                }
-            }
-        };
-
-        // Initialize timer if needed
-        if (batchTimer == null) {
-            batchTimer = new Timer("AudioBatchTimer", true);
-        }
-
-        // Schedule the task
-        batchTimer.schedule(currentBatchTask, BATCH_TIMEOUT);
-    }
-
-    /**
-     * Combines and sends the current batch of audio
-     */
-    protected void sendCurrentBatch() {
-        List<short[]> batchCopy;
-
-        synchronized (batchLock) {
-            if (audioBatch.isEmpty()) return;
-
-            // Create a copy of the batch to work with
-            batchCopy = new ArrayList<>(audioBatch);
-            // Clear the original batch immediately to allow new additions
-            audioBatch.clear();
-        }
-
-        // Process the copy outside the synchronized block
-        int totalLength = 0;
-        for (short[] audioData : batchCopy) {
-            totalLength += audioData.length;
-        }
-
-        short[] combinedAudio = new short[totalLength];
-        int position = 0;
-
-        for (short[] audioData : batchCopy) {
-            System.arraycopy(audioData, 0, combinedAudio, position, audioData.length);
-            position += audioData.length;
-        }
-
-        // Send the combined audio
-        addPromptAudio(combinedAudio);
     }
 
     public abstract void addPromptAudio(short[] audio);
