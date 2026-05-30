@@ -1,6 +1,7 @@
 package me.sshcrack.gemini_live_lib.misc;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,27 +38,33 @@ public class GeminiTTS {
         public static class GenerationConfig {
             public List<String> responseModalities;
             public double temperature;
+            @SerializedName("speechConfig")
             public SpeechConfig speech_config;
         }
 
         public static class SpeechConfig {
+            @SerializedName("multiSpeakerVoiceConfig")
             public MultiSpeakerVoiceConfig multi_speaker_voice_config;
         }
 
         public static class MultiSpeakerVoiceConfig {
+            @SerializedName("speakerVoiceConfigs")
             public List<SpeakerVoiceConfig> speaker_voice_configs;
         }
 
         public static class SpeakerVoiceConfig {
             public String speaker;
+            @SerializedName("voiceConfig")
             public VoiceConfig voice_config;
         }
 
         public static class VoiceConfig {
+            @SerializedName("prebuiltVoiceConfig")
             public PrebuiltVoiceConfig prebuilt_voice_config;
         }
 
         public static class PrebuiltVoiceConfig {
+            @SerializedName("voiceName")
             public String voice_name;
         }
     }
