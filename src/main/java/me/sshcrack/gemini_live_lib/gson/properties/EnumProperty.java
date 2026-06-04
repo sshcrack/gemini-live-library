@@ -14,5 +14,6 @@ public class EnumProperty extends Property {
 
     public EnumProperty(List<String> values, boolean required) {
         super("string", required);
+        this.enumValues = values;
     }
 }
