@@ -43,7 +43,7 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        if (reason.contains("You exceeded your current quota, please")) {
+        if (reason != null && reason.contains("You exceeded your current quota, please")) {
             onQuotaExceeded();
         }
     }
