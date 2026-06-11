@@ -40,6 +40,20 @@ public class BidiGenerateContentSetup {
         public SpeechConfig speechConfig;
         @Nullable
         public Object mediaResolution;
+        @Nullable
+        public TranslationConfig translationConfig;
+
+        public static class TranslationConfig {
+            public String targetLanguageCode;
+            @Nullable
+            public Boolean echoTargetLanguage;
+            @Nullable
+            public String sourceLanguageCode;
+
+            public TranslationConfig(String targetLanguageCode) {
+                this.targetLanguageCode = targetLanguageCode;
+            }
+        }
 
         public static class SpeechConfig {
             @Nullable
