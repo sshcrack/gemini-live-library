@@ -27,9 +27,6 @@ platform {
 
 neoForge {
 	version = prop("deps.neoforge")
-	accessTransformers.from(rootProject.file("src/main/resources/aw/${stonecutter.current.version}.cfg"))
-	validateAccessTransformers = true
-
 	if (hasProperty("deps.parchment")) parchment {
 		val (mc, ver) = prop("deps.parchment").split(':')
 		mappingsVersion = ver
@@ -60,11 +57,6 @@ neoForge {
 
 repositories {
 	mavenCentral()
-}
-
-dependencies {
-	implementation(libs.moulberry.mixinconstraints)
-	jarJar(libs.moulberry.mixinconstraints)
 }
 
 tasks.named("createMinecraftArtifacts") {

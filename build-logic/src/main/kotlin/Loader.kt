@@ -22,7 +22,7 @@ sealed class Loader(val id: String) {
 	sealed class FabricLike(id: String) : Loader(id) {
 		override val isFabricLike = true
 		override val excludedResources = listOf(
-			"META-INF/mods.toml", "META-INF/neoforge.mods.toml", "aw/*.cfg", ".cache", "pack.mcmeta"
+			"META-INF/mods.toml", "META-INF/neoforge.mods.toml", ".cache", "pack.mcmeta"
 		)
 
 		override fun generateManifest(ctx: Context): String {
@@ -38,12 +38,10 @@ sealed class Loader(val id: String) {
 				description = ctx.description,
 				icon = "assets/icon.png",
 				license = ctx.licenseName,
-				accessWidener = "aw/${ctx.currentMcVersion}.accesswidener",
 				entrypoints = mapOf(
 					"main" to listOf("${ctx.modGroup}.platform.fabric.FabricEntrypoint"),
 					"client" to listOf("${ctx.modGroup}.platform.fabric.FabricClientEntrypoint")
 				),
-				mixins = listOf("${ctx.modId}.mixins.json"),
 				depends = ctx.extension.dependencies.required.associate { it.modid.get() to it.fabricLikeVersionRange.get() },
 				recommends = ctx.extension.dependencies.optional.associate { it.modid.get() to it.fabricLikeVersionRange.get() },
 				breaks = ctx.extension.dependencies.incompatible.associate { it.modid.get() to it.fabricLikeVersionRange.get() },
@@ -69,7 +67,7 @@ sealed class Loader(val id: String) {
 		override val jarTask = "jar"
 		override val sourcesJarTask = "sourcesJar"
 		override val excludedResources = listOf(
-			"fabric.mod.json", "aw/*.accesswidener", ".cache"
+			"fabric.mod.json", ".cache"
 		)
 
 		override fun generateManifest(ctx: Context): String {
@@ -106,7 +104,7 @@ sealed class Loader(val id: String) {
 						credits = "${ctx.authors.joinToString(", ")} Contributors: ${ctx.contributors.joinToString(", ")}",
 						description = ctx.description
 					)
-				), dependencies = mapOf(ctx.modId to forgeDeps), mixins = listOf(ForgeMixin("${ctx.modId}.mixins.json"))
+				), dependencies = mapOf(ctx.modId to forgeDeps)
 			)
 
 			return TOML.encodeToString(manifest)
@@ -121,7 +119,6 @@ sealed class Loader(val id: String) {
 	object Forge : ForgeLike("forge") {
 		override val modManifestPath = "META-INF/mods.toml"
 		override val excludedResources = super.excludedResources + "META-INF/neoforge.mods.toml"
-		val mixinConfigAttribute = "MixinConfigs"
 		override val jarTask = "reobfJar"
 	}
 

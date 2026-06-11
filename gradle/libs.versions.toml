@@ -9,9 +9,7 @@ foojay = "1.0.0"
 devtools-ksp = "2.2.10-2.0.2"
 kotlin-jvm = "2.2.10"
 fletching-table = "0.1.0-alpha.23"
-moulberry-mixinconstraints = "1.1.0"
 vanniktech-maven-publish = "0.35.0"
-mixin = "0.8.5"
 serialization-json = "1.7.3"
 serialization-toml = "0.6.0"
 slf4j = "1.7.36"
@@ -22,7 +20,6 @@ mod-publish-plugin = { module = "me.modmuss50:mod-publish-plugin", version.ref =
 kikugie-stonecutter = { module = "dev.kikugie:stonecutter", version.ref = "stonecutter" }
 foojay-resolver = { module = "org.gradle.toolchains:foojay-resolver", version.ref = "foojay" }
 fletching-table = { module = "dev.kikugie:fletching-table", version.ref = "fletching-table" }
-moulberry-mixinconstraints = { module = "com.moulberry:mixinconstraints", version.ref = "moulberry-mixinconstraints" }
 vanniktech-maven-publish = { module = "com.vanniktech.maven.publish:com.vanniktech.maven.publish.gradle.plugin", version.ref = "vanniktech-maven-publish" }
 serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 serialization-toml = { module = "dev.eav.tomlkt:tomlkt", version.ref = "serialization-toml" }

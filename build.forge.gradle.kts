@@ -28,12 +28,6 @@ platform {
 legacyForge {
 	version = "${prop("deps.minecraft")}-${prop("deps.forge")}"
 
-	validateAccessTransformers = true
-
-	accessTransformers.from(
-		rootProject.file("src/main/resources/aw/${sc.current.version}.cfg")
-	)
-
 	runs {
 		register("client") {
 			client()
@@ -55,19 +49,8 @@ legacyForge {
 	}
 }
 
-mixin {
-	add(sourceSets.main.get(), "${prop("mod.id")}.mixins.refmap.json")
-	config("${prop("mod.id")}.mixins.json")
-}
-
 repositories {
 	mavenCentral()
-}
-
-dependencies {
-	annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor")
-	implementation(libs.moulberry.mixinconstraints)
-	jarJar(libs.moulberry.mixinconstraints)
 }
 
 sourceSets {
