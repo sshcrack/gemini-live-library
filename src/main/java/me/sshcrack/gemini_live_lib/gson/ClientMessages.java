@@ -3,7 +3,7 @@ package me.sshcrack.gemini_live_lib.gson;
 
 import com.google.gson.Gson;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class ClientMessages {
     @Nullable

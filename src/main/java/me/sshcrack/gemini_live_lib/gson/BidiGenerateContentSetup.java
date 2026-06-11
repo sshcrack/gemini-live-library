@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import me.sshcrack.gemini_live_lib.gson.properties.Property;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

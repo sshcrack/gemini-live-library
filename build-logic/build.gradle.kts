@@ -20,16 +20,15 @@ repositories {
 	maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" }
 	maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
 	maven("https://jitpack.io") { name = "Jitpack" }
+	maven("https://maven.wagyourtail.xyz/releases") { name = "WagYourMaven" }
 }
 
 dependencies {
 	implementation(libs.kikugie.postprocess)
 	implementation(libs.kikugie.stonecutter)
-	implementation(libs.mod.publish.plugin)
 	implementation(libs.foojay.resolver)
 	implementation(libs.fletching.table)
-	implementation(libs.vanniktech.maven.publish)
-
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-	implementation("net.peanuuutz.tomlkt:tomlkt:0.4.0")
+	implementation(libs.serialization.json)
+	implementation(libs.serialization.toml)
+	implementation("xyz.wagyourtail.jvmdowngrader:xyz.wagyourtail.jvmdowngrader.gradle.plugin:1.3.6")
 }

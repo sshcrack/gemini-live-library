@@ -3,7 +3,7 @@ mod.name = "Gemini Live Library"
 mod.group = "me.sshcrack.gemini_live_lib"
 mod.version = "2.3.4"
 mod.channel_tag = ""
-mod.description = "Changes the System Prompt for citizens to be more fitting for a zombie apocalypse modpack"
+mod.description = "A library mod for the Gemini Live API"
 mod.authors = ["sshcrack"]
 mod.contributors = []
 mod.inception_year = "2025"
@@ -13,23 +13,88 @@ mod.license.dist = "repo"
 mod.sources_url = "https://github.com/sshcrack/gemini-live-library"
 mod.homepage_url = "https://github.com/sshcrack/gemini-live-library"
 mod.issues_url = "https://github.com/sshcrack/gemini-live-library/issues"
-mod.discord_url = "https://discord.gg/ScAsuQt5em"
 
 [[mod.pom.developers]]
 id = "sshcrack"
 name = "sshcrack"
 url = "https://github.com/sshcrack"
 
+[fabric]
+deps.fabric-loader = "0.16.10"
+
+[fabric."1.16.5"]
+deps.minecraft = "1.16.5"
+
+[fabric."1.18.2"]
+deps.minecraft = "1.18.2"
+
+[fabric."1.19.2"]
+deps.minecraft = "1.19.2"
+
+[fabric."1.20.1"]
+deps.minecraft = "1.20.1"
+
+[fabric."1.21.1"]
+deps.minecraft = "1.21.1"
+
+[fabric."1.21.4"]
+deps.minecraft = "1.21.4"
+
+[fabric."1.21.5"]
+deps.minecraft = "1.21.5"
+
+[fabric."1.21.8"]
+deps.minecraft = "1.21.8"
+
+[fabric."1.21.10"]
+deps.minecraft = "1.21.10"
+
+[fabric."1.21.11"]
+deps.minecraft = "1.21.11"
+
+[fabric."26.1.2"]
+deps.minecraft = "26.1.2"
+
 [forge]
+
+[forge."1.18.2"]
+deps.minecraft = "1.18.2"
+deps.forge = "40.3.12"
+
+[forge."1.19.2"]
+deps.minecraft = "1.19.2"
+deps.forge = "43.5.2"
 
 [forge."1.20.1"]
 deps.minecraft = "1.20.1"
-deps.forge = "47.2.0"
-
+deps.forge = "47.4.20"
 
 [neoforge]
 
 [neoforge."1.21.1"]
 deps.minecraft = "1.21.1"
-deps.parchment = "1.21.1:2024.11.17"
-deps.neoforge = "21.1.213"
+deps.neoforge = "21.1.233"
+
+[neoforge."1.21.4"]
+deps.minecraft = "1.21.4"
+deps.neoforge = "21.4.157"
+
+[neoforge."1.21.5"]
+deps.minecraft = "1.21.5"
+deps.neoforge = "21.5.97"
+
+[neoforge."1.21.8"]
+deps.minecraft = "1.21.8"
+deps.neoforge = "21.8.53"
+
+[neoforge."1.21.10"]
+deps.minecraft = "1.21.10"
+deps.neoforge = "21.10.64"
+
+[neoforge."1.21.11"]
+deps.minecraft = "1.21.11"
+deps.neoforge = "21.11.42"
+
+[neoforge."26.1.2"]
+deps.minecraft = "26.1.2"
+deps.neoforge = "26.1.2.75"

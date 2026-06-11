@@ -69,7 +69,7 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        var p = JsonParser.parseString(message);
+        var p = new JsonParser().parse(message);
         if (!p.isJsonObject())
             return;
         var outer = p.getAsJsonObject();
