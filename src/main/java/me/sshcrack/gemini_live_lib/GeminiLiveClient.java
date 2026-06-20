@@ -114,9 +114,10 @@ public abstract class GeminiLiveClient extends WebSocketClient {
                     output.addProperty("error", "Function call returned null output");
                 }
 
+                var id = objFnCall.has("id") ? objFnCall.get("id").getAsString() : "";
                 var res = new BidiGenerateContentToolResponse();
                 res.functionResponses.add(new BidiGenerateContentToolResponse.FunctionResponse(
-                        objFnCall.get("id").getAsString(),
+                        id,
                         name,
                         output
                 ));
