@@ -60,6 +60,7 @@ neoForge {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
 
@@ -83,6 +84,8 @@ repositories {
 dependencies {
     implementation(libs.moulberry.mixinconstraints)
     jarJar(libs.moulberry.mixinconstraints)
+
+    compileOnly("me.sshcrack:talking_colonists_api:1.0.0")
 }
 
 var loader = sc.current.component1().split("-")[1];

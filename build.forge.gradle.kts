@@ -63,6 +63,7 @@ mixin {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
     exclusiveContent {
@@ -87,6 +88,8 @@ dependencies {
 
     implementation(libs.moulberry.mixinconstraints)
     jarJar(libs.moulberry.mixinconstraints)
+
+    compileOnly("me.sshcrack:talking_colonists_api:1.0.0")
 }
 
 sourceSets {
