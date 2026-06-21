@@ -23,6 +23,9 @@ platform {
         required("neoforge") {
             forgeLikeVersionRange.set("[1,)")
         }
+        required("mc_talking") {
+            forgeLikeVersionRange.set("[1.0.0,)")
+        }
     }
 }
 
@@ -60,6 +63,7 @@ neoForge {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
 
@@ -81,6 +85,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly("me.sshcrack:mc_talking_api:1.0.0")
+
     implementation(libs.moulberry.mixinconstraints)
     jarJar(libs.moulberry.mixinconstraints)
 }

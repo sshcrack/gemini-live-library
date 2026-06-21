@@ -23,6 +23,9 @@ platform {
         required("forge") {
             forgeLikeVersionRange.set("[1,)")
         }
+        required("mc_talking") {
+            forgeLikeVersionRange.set("[1.0.0,)")
+        }
     }
 }
 
@@ -63,6 +66,7 @@ mixin {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
     exclusiveContent {
@@ -83,6 +87,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly("me.sshcrack:mc_talking_api:1.0.0")
+
     annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor")
 
     implementation(libs.moulberry.mixinconstraints)

@@ -1,0 +1,10 @@
+{
+  "gemini_live_lib.preset.live_live": "Gemini Live",
+  "gemini_live_lib.preset.flash_tts": "Gemini Flash + TTS",
+  "gemini_live_lib.preset.flash": "Gemini Flash",
+  "gemini_live_lib.preset.live": "Gemini Live (Text)",
+  "mc_talking.config.provider.gemini_live_lib.apiKey": "API Key",
+  "mc_talking.config.provider.gemini_live_lib.apiKey.desc": "Your Gemini API key from Google AI Studio",
+  "mc_talking.config.provider.gemini_live_lib.maxConcurrent": "Max Concurrent Connections",
+  "mc_talking.config.provider.gemini_live_lib.maxConcurrent.desc": "Maximum number of concurrent Gemini API connections"
+}
