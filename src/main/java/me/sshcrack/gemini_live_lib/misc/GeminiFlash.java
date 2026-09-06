@@ -2,6 +2,7 @@ package me.sshcrack.gemini_live_lib.misc;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -29,8 +30,31 @@ public class GeminiFlash {
             public List<Part> parts;
         }
 
+        /**
+         * Optional output configuration for GenerateContent requests.
+         *
+         * <p>The field names intentionally match the v1beta GenerateContent wire format.
+         * Leave this field unset to preserve the API's normal text response behavior.</p>
+         */
+        public static class GenerationConfig {
+            public String responseMimeType;
+            public JsonElement responseJsonSchema;
+
+            public static GenerationConfig json(JsonElement responseJsonSchema) {
+                if (responseJsonSchema == null || responseJsonSchema.isJsonNull()) {
+                    throw new IllegalArgumentException("responseJsonSchema must be a non-null JSON schema");
+                }
+
+                GenerationConfig config = new GenerationConfig();
+                config.responseMimeType = "application/json";
+                config.responseJsonSchema = responseJsonSchema;
+                return config;
+            }
+        }
+
         public SystemInstruction system_instruction;
         public Content contents;
+        public GenerationConfig generationConfig;
     }
 
     private static String getUrl(String model, String apiKey) {
@@ -38,25 +62,43 @@ public class GeminiFlash {
     }
 
     public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt) throws IOException, InterruptedException, UnexpectedResponseException {
-        return sendSimpleFlashRequest(model, apiKey, systemPrompt, prompt, DEFAULT_MAX_ATTEMPTS);
+        return sendSimpleFlashRequest(model, apiKey, systemPrompt, prompt, null, DEFAULT_MAX_ATTEMPTS);
     }
 
     public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt, int maxAttempts) throws IOException, InterruptedException, UnexpectedResponseException {
+        return sendSimpleFlashRequest(model, apiKey, systemPrompt, prompt, null, maxAttempts);
+    }
+
+    public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt,
+                                                GenerateContentRequest.GenerationConfig generationConfig)
+            throws IOException, InterruptedException, UnexpectedResponseException {
+        return sendSimpleFlashRequest(model, apiKey, systemPrompt, prompt, generationConfig, DEFAULT_MAX_ATTEMPTS);
+    }
+
+    public static String sendSimpleFlashRequest(String model, String apiKey, String systemPrompt, String prompt,
+                                                GenerateContentRequest.GenerationConfig generationConfig,
+                                                int maxAttempts)
+            throws IOException, InterruptedException, UnexpectedResponseException {
+        GenerateContentRequest request = createSimpleRequest(systemPrompt, prompt, generationConfig);
+        return sendFlashRequest(model, apiKey, request, maxAttempts);
+    }
+
+    static GenerateContentRequest createSimpleRequest(String systemPrompt, String prompt,
+                                                      GenerateContentRequest.GenerationConfig generationConfig) {
         GenerateContentRequest request = new GenerateContentRequest();
         request.system_instruction = new GenerateContentRequest.SystemInstruction();
 
-        var sytemPart = new GenerateContentRequest.Part();
-        sytemPart.text = systemPrompt;
-        request.system_instruction.parts = List.of(sytemPart);
+        var systemPart = new GenerateContentRequest.Part();
+        systemPart.text = systemPrompt;
+        request.system_instruction.parts = List.of(systemPart);
 
         var contentPart = new GenerateContentRequest.Part();
         contentPart.text = prompt;
         request.contents = new GenerateContentRequest.Content();
         request.contents.parts = List.of(contentPart);
-
-        return sendFlashRequest(model, apiKey, request, maxAttempts);
+        request.generationConfig = generationConfig;
+        return request;
     }
-
 
     /**
      * @param model                  the gemini model to use (e.g. "gemini-3-flash-preview")
@@ -77,7 +119,7 @@ public class GeminiFlash {
         }
 
         Gson gson = new Gson();
-        String jsonBody = gson.toJson(generateContentRequest, GenerateContentRequest.class);
+        String jsonBody = serializeGenerateContentRequest(generateContentRequest);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(getUrl(model, apiKey)))
@@ -144,6 +186,10 @@ public class GeminiFlash {
         }
 
         throw new UnexpectedResponseException("Gemini API request failed after " + maxAttempts + " attempts.");
+    }
+
+    static String serializeGenerateContentRequest(GenerateContentRequest request) {
+        return new Gson().toJson(request, GenerateContentRequest.class);
     }
 
     private static boolean isRetryableServerResponse(HttpResponse<String> response) {

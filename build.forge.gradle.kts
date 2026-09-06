@@ -83,6 +83,11 @@ repositories {
 }
 
 dependencies {
+    testImplementation(enforcedPlatform("org.junit:junit-bom:5.14.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("com.google.code.gson:gson:2.10.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
     annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor")
 
     implementation(libs.moulberry.mixinconstraints)
@@ -128,4 +133,9 @@ publishing {
 
 tasks.named("createMinecraftArtifacts") {
     dependsOn(tasks.named("stonecutterGenerate"))
+}
+
+
+tasks.withType<org.gradle.api.tasks.testing.Test>().configureEach {
+    useJUnitPlatform()
 }
