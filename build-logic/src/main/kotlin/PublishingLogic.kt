@@ -115,6 +115,10 @@ private fun ModPublishExtension.curseforge(
 
 	this.accessToken = accessToken
 	minecraftVersions.addAll(listOf(ctx.currentMcVersion) + additionalVersions)
+	// CurseForge requires at least one selection from its Environment group.
+	// Ported from talking-colonists 65eeff7 - this library is required on both sides.
+	clientRequired = true
+	serverRequired = true
 
 	deps.required.forEach { dep -> whenNotNull(dep.curseforge) { requires(it) } }
 	deps.optional.forEach { dep -> whenNotNull(dep.curseforge) { optional(it) } }
