@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -132,6 +133,14 @@ public class GeminiTTS {
                 HttpResponse.BodyHandlers.ofInputStream()
         );
 
+        if (response.statusCode() < 200 || response.statusCode() >= 300) {
+            String responseBody;
+            try (InputStream errorBody = response.body()) {
+                responseBody = new String(errorBody.readAllBytes(), StandardCharsets.UTF_8);
+            }
+            throw unexpectedHttpResponse(response.statusCode(), responseBody);
+        }
+
         InputStream is = response.body();
         boolean foundAny = false;
         try (InputStreamReader isr = new InputStreamReader(is); JsonReader jr = new JsonReader(isr)) {
@@ -182,5 +191,13 @@ public class GeminiTTS {
         if (!foundAny) {
             throw new UnexpectedResponseException("Expected audio chunks for TTS generation, but none were streamed.");
         }
+    }
+
+    static UnexpectedResponseException unexpectedHttpResponse(int statusCode, String responseBody) {
+        return new UnexpectedResponseException(
+                "Gemini TTS request failed with HTTP " + statusCode,
+                statusCode,
+                responseBody
+        );
     }
 }
