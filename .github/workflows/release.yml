@@ -213,6 +213,47 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Deduplicate Modrinth versions (avoid duplicates on rerun)
+        env:
+          PUB_MODRINTH_TOKEN: ${{ secrets.PUB_MODRINTH_TOKEN }}
+          PUB_MODRINTH_PROJECT_ID: ${{ vars.PUB_MODRINTH_PROJECT_ID }}
+        run: |
+          set -e
+          if [ -z "$PUB_MODRINTH_PROJECT_ID" ] || [ -z "$PUB_MODRINTH_TOKEN" ]; then
+            echo "Modrinth project or token not set, skipping dedup"
+            exit 0
+          fi
+          TAG="${GITHUB_REF_NAME}"
+          for pair in "forge:1.20.1" "neoforge:1.21.1"; do
+            loader="${pair%%:*}"
+            mc="${pair##*:}"
+            VERSION="${TAG}-${loader}+${mc}"
+            echo "Checking Modrinth version $VERSION"
+            EXISTING=$(curl -s -H "Authorization: $PUB_MODRINTH_TOKEN" "https://api.modrinth.com/v2/project/$PUB_MODRINTH_PROJECT_ID/version" | jq -r ".[] | select(.version_number==\"$VERSION\") | .id" || true)
+            if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ] && [ "$EXISTING" != "" ]; then
+              echo "Found existing Modrinth version $VERSION id $EXISTING, deleting to avoid duplicate"
+              curl -s -X DELETE -H "Authorization: $PUB_MODRINTH_TOKEN" "https://api.modrinth.com/v2/version/$EXISTING" -w "\nHTTP %{http_code}\n" || true
+              sleep 1
+            else
+              echo "No existing Modrinth version for $VERSION"
+            fi
+          done
+
+      - name: Deduplicate Sshcrack Maven (check before publish)
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          for pair in "forge:1.20.1" "neoforge:1.21.1"; do
+            loader="${pair%%:*}"
+            mc="${pair##*:}"
+            VER="${TAG}-${mc}-${loader}"
+            URL="https://maven.sshcrack.me/releases/me/sshcrack/gemini_live_lib/${VER}/"
+            if curl -s -f -I "$URL" >/dev/null 2>&1; then
+              echo "WARNING: Maven artifact $VER already exists at $URL - publishing will overwrite (no duplicate directory will be created)"
+            else
+              echo "Maven artifact $VER not yet published - safe to publish"
+            fi
+          done
+
       - name: Publish to Platforms
         run: ./gradlew publishMods --stacktrace
 
