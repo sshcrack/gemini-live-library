@@ -87,6 +87,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("com.google.code.gson:gson:2.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.slf4j:slf4j-nop:2.0.16")
 
     annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor")
 

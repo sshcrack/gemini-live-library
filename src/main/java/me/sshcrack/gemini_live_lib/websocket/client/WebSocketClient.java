@@ -359,7 +359,11 @@ public abstract class WebSocketClient extends AbstractWebSocket implements Runna
         // Closing the socket when we have not connected prevents the writeThread from hanging on a write indefinitely during connection teardown
         socket.close();
       }
-      closeBlocking();
+      // Reset only the transport. Calling virtual close()/closeBlocking() here can
+      // permanently shut down an application's audio, ownership and retry state.
+      if (socket != null) socket.close();
+      engine.closeConnection(CloseFrame.NORMAL, "transport reconnect");
+      closeLatch.await();
 
       if (writeThread != null) {
         this.writeThread.interrupt();
@@ -438,6 +442,11 @@ public abstract class WebSocketClient extends AbstractWebSocket implements Runna
   public void close() {
     if (writeThread != null) {
       engine.close(CloseFrame.NORMAL);
+    } else {
+      try {
+        if (socket != null) socket.close();
+      } catch (IOException ignored) { }
+      engine.closeConnection(CloseFrame.NORMAL, "closed before handshake");
     }
   }
 
@@ -687,8 +696,8 @@ public abstract class WebSocketClient extends AbstractWebSocket implements Runna
   @Override
   public final void onWebsocketOpen(WebSocket conn, Handshakedata handshake) {
     startConnectionLostTimer();
-    onOpen((ServerHandshake) handshake);
-    connectLatch.countDown();
+    try { onOpen((ServerHandshake) handshake); }
+    finally { connectLatch.countDown(); }
   }
 
   /**
@@ -700,9 +709,11 @@ public abstract class WebSocketClient extends AbstractWebSocket implements Runna
     if (writeThread != null) {
       writeThread.interrupt();
     }
-    onClose(code, reason, remote);
-    connectLatch.countDown();
-    closeLatch.countDown();
+    try { onClose(code, reason, remote); }
+    finally {
+      connectLatch.countDown();
+      closeLatch.countDown();
+    }
   }
 
   /**

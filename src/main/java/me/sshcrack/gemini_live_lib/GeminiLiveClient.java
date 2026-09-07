@@ -7,6 +7,7 @@ import me.sshcrack.gemini_live_lib.gson.BidiGenerateContentSetup;
 import me.sshcrack.gemini_live_lib.gson.BidiGenerateContentToolResponse;
 import me.sshcrack.gemini_live_lib.gson.ClientMessages;
 import me.sshcrack.gemini_live_lib.websocket.client.WebSocketClient;
+import me.sshcrack.gemini_live_lib.websocket.drafts.Draft_6455;
 import me.sshcrack.gemini_live_lib.websocket.handshake.ServerHandshake;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,17 +24,67 @@ public abstract class GeminiLiveClient extends WebSocketClient {
     private volatile TimerTask currentBatchTask;
 
 
-    private boolean setupComplete = false;
+    private volatile boolean setupComplete = false;
+    private final int startupTimeoutMillis;
+    private final Object startupLock = new Object();
+    private Timer startupTimer;
+    private boolean startupCancelled;
 
     private static String getUrl(String apiKey) {
         return "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=" + apiKey;
     }
 
     public GeminiLiveClient(String apiKey) {
-        super(URI.create(getUrl(apiKey)));
+        this(apiKey, 15_000);
+    }
+
+    /** Deadline covers TCP, TLS, WebSocket upgrade and the Gemini setup acknowledgement. */
+    protected GeminiLiveClient(String apiKey, int startupTimeoutMillis) {
+        super(URI.create(getUrl(apiKey)), new Draft_6455(), null, startupTimeoutMillis);
+        if (startupTimeoutMillis <= 0) throw new IllegalArgumentException("startup timeout must be positive");
+        this.startupTimeoutMillis = startupTimeoutMillis;
 
         this.batchTimeout = 100;
         this.maxBatchSize = 5;
+    }
+
+    @Override
+    public void connect() {
+        synchronized (startupLock) {
+            cancelStartupTimer();
+            setupComplete = false;
+            startupCancelled = false;
+            var connection = getConnection();
+            startupTimer = new Timer("gemini-live-startup", true);
+            startupTimer.schedule(new TimerTask() {
+                @Override public void run() {
+                    synchronized (startupLock) {
+                        if (startupCancelled || setupComplete || getConnection() != connection) return;
+                        startupCancelled = true;
+                    }
+                    // Closing the physical socket interrupts a blocked TLS/HTTP read as well.
+                    try {
+                        var socket = getSocket();
+                        if (getConnection() == connection && socket != null) socket.close();
+                    } catch (java.io.IOException ignored) { }
+                    connection.closeConnection(1006, "Gemini startup deadline exceeded");
+                }
+            }, startupTimeoutMillis);
+            try {
+                super.connect();
+            } catch (RuntimeException error) {
+                cancelStartupTimer();
+                throw error;
+            }
+        }
+    }
+
+    private void cancelStartupTimer() {
+        startupCancelled = true;
+        if (startupTimer != null) {
+            startupTimer.cancel();
+            startupTimer = null;
+        }
     }
 
 
@@ -43,6 +94,10 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
+        synchronized (startupLock) {
+            setupComplete = false;
+            cancelStartupTimer();
+        }
         if (reason != null && reason.contains("You exceeded your current quota, please")) {
             onQuotaExceeded();
         }
@@ -55,7 +110,15 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake data) {
-        send(ClientMessages.setup(getSetup()));
+        setupComplete = false;
+        try {
+            send(ClientMessages.setup(getSetup()));
+        } catch (RuntimeException error) {
+            // A half-configured open socket cannot carry a conversation. Do not leave it
+            // alive merely because application setup construction failed.
+            try { closeConnection(1007, "Failed to construct or send Gemini setup"); }
+            finally { onError(error); }
+        }
     }
 
     public void onSetupComplete() {
@@ -63,7 +126,7 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void onMessage(ByteBuffer bytes) {
-        String newContent = new String(bytes.array(), StandardCharsets.UTF_8);
+        String newContent = StandardCharsets.UTF_8.decode(bytes.asReadOnlyBuffer()).toString();
         onMessage(newContent);
     }
 
@@ -74,7 +137,11 @@ public abstract class GeminiLiveClient extends WebSocketClient {
             return;
         var outer = p.getAsJsonObject();
         if (outer.has("setupComplete")) {
-            setupComplete = true;
+            synchronized (startupLock) {
+                if (startupCancelled || setupComplete) return;
+                setupComplete = true;
+                cancelStartupTimer();
+            }
             onSetupComplete();
             return;
         }
@@ -140,27 +207,12 @@ public abstract class GeminiLiveClient extends WebSocketClient {
         }
         if (outer.has("serverContent") && outer.get("serverContent").isJsonObject()) {
             var obj = outer.getAsJsonObject("serverContent");
-            if (obj.has("generationComplete") && obj.get("generationComplete").getAsBoolean()) {
-                onGenerationComplete();
-                return;
-            }
-
             if (obj.has("outputTranscription")) {
                 onOutputTranscription(obj.get("outputTranscription").getAsJsonObject().get("text").getAsString());
             }
 
             if (obj.has("inputTranscription")) {
                 onInputTranscription(obj.get("inputTranscription").getAsJsonObject().get("text").getAsString());
-            }
-
-            if (obj.has("interrupted") && obj.get("interrupted").getAsBoolean()) {
-                onInterrupted();
-                return;
-            }
-
-            if (obj.has("turnComplete") && obj.get("turnComplete").getAsBoolean()) {
-                onTurnComplete();
-                return;
             }
 
             if (obj.has("modelTurn")) {
@@ -195,12 +247,17 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
                         var data = Base64.getDecoder().decode(inlineData.get("data").getAsString());
                         onGeneratedAudio(data, sampleRate);
-                        return;
                     }
                 }
             }
 
-            onUnknownMessage(outer);
+            if (obj.has("interrupted") && obj.get("interrupted").getAsBoolean()) onInterrupted();
+            if (obj.has("generationComplete") && obj.get("generationComplete").getAsBoolean()) onGenerationComplete();
+            if (obj.has("turnComplete") && obj.get("turnComplete").getAsBoolean()) onTurnComplete();
+            if (!obj.has("modelTurn") && !obj.has("outputTranscription") && !obj.has("inputTranscription")
+                    && !obj.has("interrupted") && !obj.has("generationComplete") && !obj.has("turnComplete")) {
+                onUnknownMessage(outer);
+            }
         }
     }
 
@@ -249,6 +306,10 @@ public abstract class GeminiLiveClient extends WebSocketClient {
 
     @Override
     public void close() {
+        synchronized (startupLock) {
+            setupComplete = false;
+            cancelStartupTimer();
+        }
         // Clean up timer resources
         if (batchTimer != null) {
             batchTimer.cancel();
